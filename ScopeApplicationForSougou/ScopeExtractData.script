@@ -1,0 +1,66 @@
+﻿//Script GUID:a4159629-d5fe-4689-a17a-f93c667d5e27
+//Used for tracking history
+USING ScopeRuntime.Diagnostics;
+
+#DECLARE StartDate string = @"2016-08-24"; 
+#DECLARE EndDate string = @"2016-08-26";
+#DECLARE QueryStartTime string = @"2016-08-24 00:00:00";
+#DECLARE QueryEndTime string = @"2016-08-25 21:00:00";
+#DECLARE CheckDate string = @"2016-08-24";
+//#DECLARE System.DateTime currentTime=new System.DateTime();
+
+#DECLARE now System.DateTime  = new System.DateTime();  
+//#DECLARE StartDateFromNow System.DateTime = now.AddDays(-4); //4 days ago 
+//#DECLARE StopDateFromNow System.DateTime = now.AddDays(-3); //3 days ago
+
+//#DECLARE InputFile string @"/users/qianwa/Sogou/SogouAdsInvest/SogouAdsInvest_2016-07-14-2016-07-15.ss";
+//#DECLARE OutputFile string.Format(@"/users/mancao/Test/TotalAds/TotalAds_{0}-{1}.ss",@StartDate, @EndDate);
+//#DECLARE OutputFile string = string.Format(@"/users/mmaisda/sogouads/DSQ/DSQ0810_{0}-{1}.ss", @StartDate, @EndDate);
+#DECLARE OutputFile string = string.Format(@"/users/tigertong/SLPVExtractData.ss", @StartDate, @EndDate);
+
+//ScopeRuntime.Diagnostics.DebugStream.WriteLine(@"test");
+
+SlapiPageViewDaily =
+    VIEW @"/shares/searchDM/distrib/released/SLAPI/SearchLogPageView.view"
+    PARAMS
+    (
+        Start = @StartDate,
+        End = @EndDate,
+        Dataset = "Bing.com",
+        UseSample = false,
+        ReturnAbnormalTraffic = true
+    );
+
+/*slapidata=
+    SELECT ViewPortList as ViewPortList,
+           PageElementList as PageElementList
+    FROM SlapiPageViewDaily
+    WHERE Market.ToLower() == "zh-cn" 
+          AND Request_RequestTime < Convert.ToDateTime(@QueryEndTime) AND Request_RequestTime >= Convert.ToDateTime(@QueryStartTime)
+          AND Query_IsNormal 
+          AND Vertical.ToLower() == "web"
+          AND Request_IsNormalTraffic;  */ 
+
+slapidata=
+    SELECT Dataset,SessionId,ClientId,Market,Vertical,FormCode,Page_Name,Page_Type,Page_ClickCount,Query_RawQuery,Request_UserAgent,Request_Url,Request_Referrer,
+                      User_Ip,
+           User_ReverseIpInfo.CountryIso  AS User_CountryIso, 
+           User_ReverseIpInfo.State AS User_State,
+           User_ReverseIpInfo.City AS User_City,
+           User_ReverseIpInfo.Region AS User_Region,
+           User_ReverseIpInfo.PostalCode AS User_PostalCode,
+           User_ReverseIpInfo.Lat AS User_Lat,
+           User_ReverseIpInfo.Long AS User_Long,
+           User_ReverseIpInfo.TimeZone AS User_TimeZone
+    FROM SlapiPageViewDaily
+    WHERE Market.ToLower() == "zh-cn" 
+          AND Request_RequestTime < Convert.ToDateTime(@QueryEndTime) AND Request_RequestTime >= Convert.ToDateTime(@QueryStartTime)
+          AND Query_IsNormal 
+          AND Vertical.ToLower() == "web"
+          AND Request_IsNormalTraffic
+          AND Regex.IsMatch(Query_RawQuery, "\\btitong001\\b", RegexOptions.IgnoreCase);  
+
+
+
+
+OUTPUT slapidata TO SSTREAM @OutputFile;
