@@ -1,0 +1,134 @@
+﻿//Script GUID:90b9d032-de97-4e76-8700-bbbf75130d1b
+//Used for tracking history
+
+
+#DECLARE StartDate string = @"2016-08-25";
+//#DECLARE StartDate string = ( @@StartDateStr == "" ? @"2016-08-21" : @@StartDateStr); 
+#DECLARE EndDate string = @"2016-08-30";
+#DECLARE QueryStartTime string = @"2016-08-27 09:00:00"; //(2016-08-21 00:00:00 -15hours)
+#DECLARE QueryEndTime string = @"2016-08-28 09:00:00";
+#DECLARE CheckDate string = @"2016-08-28";
+
+#DECLARE OutputFile string = string.Format(@"/users/tigertong/sogouads/2016basic/TotalLogSogou0820_{0}-{1}-{2}.ss", @StartDate, @EndDate,@CheckDate);
+
+SlapiPageViewDaily =
+    VIEW @"/shares/searchDM/distrib/released/SLAPI/SearchLogPageView.view"
+    PARAMS
+    (
+        Start = @StartDate,
+        End = @EndDate,
+        Dataset = "Bing.com",
+        UseSample = false,
+        ReturnAbnormalTraffic = true
+    );
+
+slapidata=
+    SELECT //ClientId.ToLower() AS ClientId,
+           Request_ImpressionGuid AS ImpressionGuid,
+           Request_RequestTime AS RequestTime,
+           //Vertical,
+           Request_IsNormalTraffic,
+           //Query_IsNormal,
+           FormCode,
+           Page_Entities_Ads != null ? (Page_Entities_Ads.Clicks.Count) : 0 AS AdsClicksCount,
+           Page_Entities_Ads != null ? (Page_Entities_Ads.Count) : 0 AS AdsShow, 
+           //Metrics_AdItemCount AS AdImpression,
+           //Metrics_AdClickCount AS MeAdsClicksCount,
+           //Page_Entities_Ads.Select( a => IfSogouAd(a) ? 1 : 0).Sum() >0 ? 1 : 0 AS IsSogou,
+           Page_Entities_Ads.Select( a => IfSogouAd(a) ? 1 : 0).Sum() AS SogouIM,
+           Page_Entities_Ads.Select( a => IfSogouAd(a) ? a.Clicks.Count : 0).Sum() AS SogouClicks,
+           
+           Query_RawQuery,Request_UserAgent,Request_Url,Request_Referrer,
+                      User_Ip,
+           User_ReverseIpInfo.CountryIso  AS User_CountryIso, 
+           User_ReverseIpInfo.State AS User_State,
+           User_ReverseIpInfo.City AS User_City,
+           User_ReverseIpInfo.Region AS User_Region,
+           User_ReverseIpInfo.PostalCode AS User_PostalCode,
+           User_ReverseIpInfo.Lat AS User_Lat,
+           User_ReverseIpInfo.Long AS User_Long
+       
+    FROM SlapiPageViewDaily
+    WHERE Market.ToLower() == "zh-cn" 
+          AND Request_RequestTime < Convert.ToDateTime(@QueryEndTime) AND Request_RequestTime >= Convert.ToDateTime(@QueryStartTime)
+          AND Query_IsNormal 
+          AND Vertical.ToLower() == "web";    
+
+OUTPUT slapidata TO SSTREAM @OutputFile;
+
+
+
+
+
+//C# CODE
+/////////////
+#CS
+       
+public static bool IfSogouAd(Ad a)
+{
+   var urls = new List<string>();
+    string url = "";
+
+    if (a.DataSource.TryGetProperty("Url", out url)) 
+    {
+        urls.Add(url);
+    }
+    //Page_Entities_Ads[0].Children.FindElementsWithProperty("T","D.Url")[0].DataSource.GetDataPropertyOrDefault("Url","None")
+    //Page_Entities_Ads[0].Children.WhereElementHasChildWithProperty("T","D.Url")[0].DataSource.FindElementsWithProperty("T","D.Url")[0].GetDataPropertyOrDefault("Url","None")
+    
+    var s=a.Children.FindElementsWithProperty("T","D.Url");
+    if(s.Count>0)
+    {
+        foreach(var ds in s)
+        {
+            url = ds.DataSource.GetDataPropertyOrDefault("Url","None");
+            urls.Add(url);
+        }
+    }
+
+    /*
+    if (a.Children.WhereElementHasChildWithProperty("T","D.Url").Count > 0) 
+    {
+        foreach(var s in a.Children.WhereElementHasChildWithProperty("T","D.Url"))
+        {
+            if(s.DataSource.FindElementsWithProperty("T","D.Url").Count > 0)
+            {
+                foreach(var e in s.DataSource.FindElementsWithProperty("T","D.Url"))
+                {
+                    url=e.GetDataPropertyOrDefault("Url","None");
+                    urls.Add(url);
+                   
+                }
+            }
+        }
+    }
+    */
+    return urls.Distinct().Where(u => u != "").Any(u => u.Contains("www.sogou.com/websearch/xml"));
+}
+
+/*
+public static bool IfMsnAd(Ad b)
+{
+   var urls = new List<string>();
+    string url = "";
+
+    if (b.DataSource.TryGetProperty("Url", out url)) 
+    {
+        urls.Add(url);
+    }
+    //Page_Entities_Ads[0].Children.FindElementsWithProperty("T","D.Url")[0].DataSource.GetDataPropertyOrDefault("Url","None")
+    //Page_Entities_Ads[0].Children.WhereElementHasChildWithProperty("T","D.Url")[0].DataSource.FindElementsWithProperty("T","D.Url")[0].GetDataPropertyOrDefault("Url","None")
+    
+    var s=b.Children.FindElementsWithProperty("T","D.Url");
+    if(s.Count>0)
+    {
+        foreach(var ds in s)
+        {
+            url = ds.DataSource.GetDataPropertyOrDefault("Url","None");
+            urls.Add(url);
+        }
+    }
+    return urls.Distinct().Where(u => u != "").Any(u => u.Contains(".r.msn.com"));
+}*/
+
+#ENDCS
