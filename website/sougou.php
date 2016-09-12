@@ -11,7 +11,13 @@
 ${demo.css}
 		</style>
 
-		
+	<?php
+	
+	$start = $_GET["startdate"];
+	$stop =  $_GET["stopdate"];
+	if ($start == ""){$start="2018-08-01";}
+	if ($stop == ""){$start="2018-08-31";}
+	?>	
 
 
 </head>
@@ -34,8 +40,8 @@ ${demo.css}
 <a href="sougou.php" > <button class="btn" theme="grid">sougou distribution</button></a>
     </p><p>
 	<form   action='sougou.php' method='get'>
-	startdate:<input type="text" id="startdate" name="startdate" size="20" value="2016-08-01"><br> 
-	stopdate:<input type="text" id="stopdate" name="stopdate" size="20" value="2016-08-14"><br><input name="submit" value="submit" id="submit"  type="submit" />
+	startdate:<input type="text" id="startdate" name="startdate" size="20" value="<?php echo $start;?>"><br> 
+	stopdate:<input type="text" id="stopdate" name="stopdate" size="20" value="<?php echo $stop;?>"><br><input name="submit" value="submit" id="submit"  type="submit" />
 	</form>
 	<h3><a href="sougouupdate.php">update data</a></h3></p>
 	
