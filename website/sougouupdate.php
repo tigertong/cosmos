@@ -172,9 +172,14 @@ else{
 $CPC_14 =  ($CPC_2weekago -$CPC )/$CPC ; //’=(Day15有效点击量Day1有效点击量)/Day1有效点击量展示量
 }
 
+$Years = date("Y", strtotime($date));
+$Months = date("m", strtotime($date));
+$Days = date("d", strtotime($date));
+$Weeks = date("W", strtotime($date));
+$YearMonth = date("Ym", strtotime($date));
+$WeekS_NO = date("w", strtotime($date));
 
-
-$import="INSERT Sogou_data (date,SRPV_Raw  , SRPV_Anti_fraud , Revenue ,Impressions_Raw	 ,Impressions_Anti_fraud  ,Clicks_Raw	  ,Clicks_Anti_fraud   ,Coverage_Raw	 ,Coverage_Anti_fraud  ,CTR  ,ECPM  ,CPC    ,Revenue_7 ,Revenue_14 ,SRPV_7 ,SRPV_14 , Impressions_7 ,Impressions_14 ,Clicks_7 ,Clicks_14 ,ECPM_7 ,ECPM_14 ,Coverage_Raw_7 ,Coverage_Raw_14 ,CPC_7 ,CPC_14   ) values ( '$date',$SRPV_Raw  , $SRPV_Anti_fraud , $Revenue ,$Impressions_Raw	 ,$Impressions_Anti_fraud  ,$Clicks_Raw	  ,$Clicks_Anti_fraud   ,$Coverage_Raw	 ,$Coverage_Anti_fraud  ,$CTR  ,$ECPM  ,$CPC    ,$Revenue_7 ,$Revenue_14 ,$SRPV_7 ,$SRPV_14 , $Impressions_7 ,$Impressions_14 ,$Clicks_7 ,$Clicks_14 ,$ECPM_7 ,$ECPM_14 ,$Coverage_Raw_7 ,$Coverage_Raw_14 ,$CPC_7 ,$CPC_14  ) ON DUPLICATE KEY UPDATE SRPV_Raw=$SRPV_Raw,SRPV_Anti_fraud=$SRPV_Anti_fraud,Revenue=$Revenue,Impressions_Raw	=$Impressions_Raw	,Impressions_Anti_fraud=$Impressions_Anti_fraud,Clicks_Raw	=$Clicks_Raw	,Clicks_Anti_fraud=$Clicks_Anti_fraud,Coverage_Raw	=$Coverage_Raw	,Coverage_Anti_fraud=$Coverage_Anti_fraud,CTR=$CTR,ECPM=$ECPM,CPC=$CPC,Revenue_7=$Revenue_7,Revenue_14=$Revenue_14,SRPV_7=$SRPV_7,SRPV_14=$SRPV_14,Impressions_7=$Impressions_7,Impressions_14=$Impressions_14,Clicks_7=$Clicks_7,Clicks_14=$Clicks_14,ECPM_7=$ECPM_7,ECPM_14=$ECPM_14,Coverage_Raw_7=$Coverage_Raw_7,Coverage_Raw_14=$Coverage_Raw_14,CPC_7=$CPC_7,CPC_14=$CPC_14  ";
+$import="INSERT Sogou_data (date,SRPV_Raw  , SRPV_Anti_fraud , Revenue ,Impressions_Raw	 ,Impressions_Anti_fraud  ,Clicks_Raw	  ,Clicks_Anti_fraud   ,Coverage_Raw	 ,Coverage_Anti_fraud  ,CTR  ,ECPM  ,CPC    ,Revenue_7 ,Revenue_14 ,SRPV_7 ,SRPV_14 , Impressions_7 ,Impressions_14 ,Clicks_7 ,Clicks_14 ,ECPM_7 ,ECPM_14 ,Coverage_Raw_7 ,Coverage_Raw_14 ,CPC_7 ,CPC_14  ,Years ,Months,Days,Weeks ,YearMonth ,WeekS_NO ) values ( '$date',$SRPV_Raw  , $SRPV_Anti_fraud , $Revenue ,$Impressions_Raw	 ,$Impressions_Anti_fraud  ,$Clicks_Raw	  ,$Clicks_Anti_fraud   ,$Coverage_Raw	 ,$Coverage_Anti_fraud  ,$CTR  ,$ECPM  ,$CPC    ,$Revenue_7 ,$Revenue_14 ,$SRPV_7 ,$SRPV_14 , $Impressions_7 ,$Impressions_14 ,$Clicks_7 ,$Clicks_14 ,$ECPM_7 ,$ECPM_14 ,$Coverage_Raw_7 ,$Coverage_Raw_14 ,$CPC_7 ,$CPC_14 ,$Years ,$Months,$Days,$Weeks ,$YearMonth ,$WeekS_NO ) ON DUPLICATE KEY UPDATE SRPV_Raw=$SRPV_Raw,SRPV_Anti_fraud=$SRPV_Anti_fraud,Revenue=$Revenue,Impressions_Raw	=$Impressions_Raw	,Impressions_Anti_fraud=$Impressions_Anti_fraud,Clicks_Raw	=$Clicks_Raw	,Clicks_Anti_fraud=$Clicks_Anti_fraud,Coverage_Raw	=$Coverage_Raw	,Coverage_Anti_fraud=$Coverage_Anti_fraud,CTR=$CTR,ECPM=$ECPM,CPC=$CPC,Revenue_7=$Revenue_7,Revenue_14=$Revenue_14,SRPV_7=$SRPV_7,SRPV_14=$SRPV_14,Impressions_7=$Impressions_7,Impressions_14=$Impressions_14,Clicks_7=$Clicks_7,Clicks_14=$Clicks_14,ECPM_7=$ECPM_7,ECPM_14=$ECPM_14,Coverage_Raw_7=$Coverage_Raw_7,Coverage_Raw_14=$Coverage_Raw_14,CPC_7=$CPC_7,CPC_14=$CPC_14  ,Years=$Years ,Months=$Months,Days=$Days,Weeks=$Weeks ,YearMonth=$YearMonth ,WeekS_NO=$WeekS_NO";
 mysqli_query($db,$import) or die(mysql_error());
 
 
