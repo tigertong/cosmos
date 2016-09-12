@@ -139,7 +139,13 @@ ECPM_14 double(12,4),
 Coverage_Raw_7 double(12,4),
 Coverage_Raw_14 double(12,4),
 CPC_7 double(12,4),
-CPC_14 double(12,4)
+CPC_14 double(12,4),
+Years varchar(4),
+Months  varchar(2),
+Days  varchar(2),
+Weeks  varchar(2),
+YearMonth varchar(6),
+WeekS_NO varchar(1)
 )ENGINE=MyISAM DEFAULT CHARSET=utf8;
 ALTER TABLE `Sogou_data` ADD UNIQUE (`date`);
 
