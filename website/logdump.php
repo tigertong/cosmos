@@ -21,22 +21,22 @@ $_localpath="C:/Work_Env/BingAds";
 $_logfolder="$_localpath/logs/";
 $_logfolder_done="$_localpath/logs_done/";
 
-$command_url = "$_localpath/tools/ScopeSDK/Scope.exe copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/mmaisda/sogouads/$datemonth/SRPVFileFiltered_$date.csv   $_localpath/logs/SRPVFileFiltered_$date.csv  "  ;
+$command_url = "$_localpath/tools/ScopeSDK/Scope.exe copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/mmaisda/sogouads/$datemonth_test/SRPVFileFiltered_$date.csv   $_localpath/logs/SRPVFileFiltered_$date.csv  "  ;
 echo $command_url;
 exec($command_url);
 
-$command_url1 = "$_localpath/tools/ScopeSDK/Scope.exe  copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/mmaisda/sogouads/$datemonth/SumFile_$date.csv     $_localpath/logs/SumFile_$date.csv  "  ;
+$command_url1 = "$_localpath/tools/ScopeSDK/Scope.exe  copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/mmaisda/sogouads/$datemonth_test/SumFile_$date.csv     $_localpath/logs/SumFile_$date.csv  "  ;
 echo $command_url1;
 exec($command_url1);
 
-$command_url2 = "$_localpath/tools/ScopeSDK/Scope.exe  copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/mmaisda/sogouads/DSQ/DSQ_$date.csv   $_localpath/logs/DSQ_$date.csv "  ;
+$command_url2 = "$_localpath/tools/ScopeSDK/Scope.exe  copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/mmaisda/sogouads/DSQ_test/DSQ_$date.csv   $_localpath/logs/DSQ_$date.csv "  ;
 echo $command_url2;
 exec($command_url2);
 
 
 
 $dir = $_logfolder;
-require_once("./db.conf.php");
+require_once("C:/Work_Env/BingAds/GIT/website/db.conf.php");
 
 // Open a known directory, and proceed to read its contents
 if(file_exists("$_localpath/logs/DSQ_$date.csv"))

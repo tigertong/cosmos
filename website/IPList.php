@@ -14,6 +14,10 @@ ${demo.css}
 $contentdate = $_GET["date"];	
 require_once("./db.conf.php");
 echo $_GET['submit'].$_GET['startdate'].$_GET["stopdate"];
+
+$startdate = "2016-08-05";
+$stopdate = "2016-09-05";
+
 if (isset($_GET["submit"]) && isset($_GET["startdate"]) && isset($_GET["stopdate"])) {
 $startdate = $_GET["startdate"];
 $stopdate = $_GET["stopdate"];
@@ -158,8 +162,8 @@ $(function () {
 <a href="sougou.php" > <button class="btn" theme="grid">sougou distribution</button></a>
     </p><p>
 	<form   action='IPList.php' method='get'>
-	startdate:<input type="text" id="startdate" name="startdate" size="20" value="2016-08-22"><br> 
-	stopdate:<input type="text" id="stopdate" name="stopdate" size="20" value="2016-08-24"><br><input name="submit" value="submit" id="submit"  type="submit" />
+	startdate:<input type="text" id="startdate" name="startdate" size="20" value="<?php echo $startdate ; ?>"><br> 
+	stopdate:<input type="text" id="stopdate" name="stopdate" size="20" value="<?php echo $stopdate ; ?>"><input name="submit" value="submit" id="submit"  type="submit" />
 	</form>
 	</p>
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
