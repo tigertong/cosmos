@@ -160,7 +160,7 @@ $SRPV_Raw_Linear = substr($SRPV_Raw_Linear ,0, strlen($SRPV_Raw_Linear)-1);
 		
 		
 		<script type="text/javascript" >
-
+// colors: ['#058DC7', '#50B432', '#ED561B', '#DDDF00', '#24CBE5', '#64E572', '#FF9655', '#FFF263', '#6AF9C4'] 
 $(function () {
 
 	var SRPV_data = [<?php echo $SRPV_Linear ;?>];
@@ -207,17 +207,21 @@ $(function () {
         },
         series: [{
             name: 'SML',
-            data: [<?php echo $SRPV;?>] //[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            data: [<?php echo $SRPV;?>] ,//[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+			color:'#058DC7' 
         },{
             name: 'Sogou',
-            data: [<?php echo $SRPV_Raw;?> ] //[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            data: [<?php echo $SRPV_Raw;?> ], //[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+			color: '#50B432' 
         },{
             name: 'SML Linear',
-            data: SRPV_linearArr
+            data: SRPV_linearArr,
+			color:'#000000'  
 			//[44987035.03636363,44635067.87272727,44283100.7090909,43931133.54545454,43579166.381818175,43227199.21818181,42875232.05454545,42523264.89090908,42171297.72727272,41819330.56363636]
         },{
             name: 'Sogou Linear',
-            data: SRPV_Raw_linearArr
+            data: SRPV_Raw_linearArr,
+			color:'#000000'  
         }
 		
 		]
