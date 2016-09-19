@@ -9,7 +9,7 @@
 		<!--script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script-->
 		
 		<!-- Bootstrap -->
-			<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+			<!--link href="Linear-Regression/bootstrap/css/bootstrap.min.css" rel="stylesheet"-->
 
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -24,7 +24,7 @@
 		<script src="Linear-Regression/bootstrap/js/bootstrap.min.js"></script>
 		<script type="text/javascript"src="Linear-Regression/js/jquery.flot.min.js"></script>
 		<script type="text/javascript"src="Linear-Regression/js/regression.min.js"></script>
-		<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML-full"></script>
+		<script type="text/javascript" src="Linear-Regression/js/MathJax.js?config=AM_HTMLorMML-full"></script>
 				
 		
 		
@@ -450,7 +450,7 @@ $(function () {
 <a href="sumfile.php" > <button class="btn" theme="grid">SumFile distribution</button></a>
 <a href="sougou.php" > <button class="btn" theme="grid">sougou distribution</button></a>
     </p><p>
-	<form   action='sumfile.php' method='get'>
+	<form   action='sumfile1.php' method='get'>
 	startdate:<input type="text" id="startdate" name="startdate" size="20" value="<?php echo $startdate ; ?>"><br> 
 	stopdate:<input type="text" id="stopdate" name="stopdate" size="20" value="<?php echo $stopdate ; ?>"><br><input name="submit" value="submit" id="submit"  type="submit" />
 	</form>
