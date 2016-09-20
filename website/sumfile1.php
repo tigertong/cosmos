@@ -88,6 +88,8 @@ if($DSQ=="")$DSQ=0;
 
 
 $SRPV_Linear .= "[".$number.",".$row['SRPV']."],";
+$SRPV_filtered_Linear .= "[".$number.",".$row['SRPV_filtered']."],";
+$DSQ_Linear .= "[".$number.",".$row['DSQ']."],";
 $number++;
 }
 
@@ -100,6 +102,8 @@ $Clicks = substr($Clicks ,0, strlen($Clicks)-1);
 $DSQ = substr($DSQ ,0, strlen($DSQ)-1);
 $categories = substr($categories ,0, strlen($categories)-1);
 $SRPV_Linear = substr($SRPV_Linear ,0, strlen($SRPV_Linear)-1); 
+$SRPV_filtered_Linear = substr($SRPV_filtered_Linear ,0, strlen($SRPV_filtered_Linear)-1); 
+$DSQ_Linear = substr($DSQ_Linear ,0, strlen($DSQ_Linear)-1); 
 	//mysqli_close($db);
 
 $number=1;
@@ -140,6 +144,8 @@ if($Clicks_Raw=="")$Clicks_Raw=0;
 if($Clicks_Anti_fraud=="")$Clicks_Anti_fraud=0;
 
 $SRPV_Raw_Linear .= "[".$number.",".$row['SRPV_Raw']."],";
+$SRPV_Anti_fraud_Linear .= "[".$number.",".$row['SRPV_Anti_fraud']."],";
+
 $number++;
 
 }
@@ -151,6 +157,7 @@ $Impressions_Anti_fraud = substr($Impressions_Anti_fraud ,0, strlen($Impressions
 $Clicks_Raw = substr($Clicks_Raw ,0, strlen($Clicks_Raw)-1);
 $Clicks_Anti_fraud = substr($Clicks_Anti_fraud ,0, strlen($Clicks_Anti_fraud)-1);
 $SRPV_Raw_Linear = substr($SRPV_Raw_Linear ,0, strlen($SRPV_Raw_Linear)-1); 
+$SRPV_Anti_fraud_Linear = substr($SRPV_Anti_fraud_Linear ,0, strlen($SRPV_Anti_fraud_Linear)-1); 
 	//mysqli_close($db);
 
 
@@ -208,26 +215,88 @@ $(function () {
         series: [{
             name: 'SML',
             data: [<?php echo $SRPV;?>] ,//[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-			color:'#058DC7' 
+			color:'#058DC7' ,
+			lineWidth: 3  ,
+			enableMouseTracking: true,
+			dataLabels: {
+                enabled: true,
+				style: {"color": "#058DC7" }
+			}
         },{
             name: 'Sogou',
             data: [<?php echo $SRPV_Raw;?> ], //[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-			color: '#50B432' 
+			color: '#50B432' ,
+			lineWidth: 3   ,
+			enableMouseTracking: true,
+			dataLabels: {
+                enabled: true,
+				style: {"color": "#50B432" }
+			}
         },{
             name: 'SML Linear',
             data: SRPV_linearArr,
-			color:'#000000'  
-			//[44987035.03636363,44635067.87272727,44283100.7090909,43931133.54545454,43579166.381818175,43227199.21818181,42875232.05454545,42523264.89090908,42171297.72727272,41819330.56363636]
+			color:'#000000',
+			lineWidth: 1   ,
+			dashStyle: 'LongDashDot',
+			marker: {
+					fillColor: '#000000',//点填充色
+                    lineColor: '#000000',//点边框色
+                    enabled: true,
+                    symbol: 'circle',//曲线点类型："circle", "square", "diamond", "triangle","triangle-down"，默认是"circle"
+                    radius: 2 //曲线点半径，默认是4
+                    
+                },
+			dataLabels: {
+                    enabled: false
+                }
         },{
             name: 'Sogou Linear',
             data: SRPV_Raw_linearArr,
-			color:'#000000'  
+			color:'#000000'  ,
+			lineWidth: 1  ,
+			dashStyle: 'LongDashDot',
+			marker: {
+					fillColor: '#000000',//点填充色
+                    lineColor: '#000000',//点边框色
+                    enabled: true,
+                    symbol: 'circle',//曲线点类型："circle", "square", "diamond", "triangle","triangle-down"，默认是"circle"
+                    radius: 2 //曲线点半径，默认是4
+                    
+                },
+			dataLabels: {
+                    enabled: false
+                }
         }
 		
 		]
     });
 });
 $(function () {
+	var SRPV_filtered_data = [<?php echo $SRPV_filtered_Linear ;?>];
+	var SRPV_filtered_myRegression = regression('linear', SRPV_filtered_data);
+ 	var SRPV_filtered_linearArr= new Array();	
+			
+	for(var i=0;i < SRPV_filtered_myRegression.points.length ;i++){
+		 SRPV_filtered_linearArr[i] = Math.round(SRPV_filtered_myRegression.points[i][1]);
+	}
+	
+	var DSQ_data = [<?php echo $DSQ_Linear ;?>];
+	var DSQ_myRegression = regression('linear', DSQ_data);
+ 	var DSQ_linearArr= new Array();	
+			
+	for(var i=0;i < DSQ_myRegression.points.length ;i++){
+		 DSQ_linearArr[i] = Math.round(DSQ_myRegression.points[i][1]);
+	}
+
+
+	var SRPV_Anti_fraud_data = [<?php echo $SRPV_Anti_fraud_Linear ;?>];
+	var SRPV_Anti_fraud_myRegression = regression('linear', SRPV_Anti_fraud_data);
+ 	var SRPV_Anti_fraud_linearArr= new Array();	
+			
+	for(var i=0;i < SRPV_Anti_fraud_myRegression.points.length ;i++){
+		 SRPV_Anti_fraud_linearArr[i] = Math.round(SRPV_Anti_fraud_myRegression.points[i][1]);
+	}
+
     $('#container1').highcharts({
         chart: {
             type: 'line'
@@ -257,13 +326,85 @@ $(function () {
         series: [
 		{
             name: 'SML',
-            data: [<?php echo $SRPV_filtered;?>]  
+            data: [<?php echo $SRPV_filtered;?>]  ,
+			color:'#058DC7' ,
+			lineWidth: 3  ,
+			enableMouseTracking: true,
+			dataLabels: {
+                enabled: true,
+				style: {"color": "#058DC7" }
+			}
         },{
             name: 'DSQ',
-            data: [<?php echo $DSQ;?>]  
+            data: [<?php echo $DSQ;?>]  ,
+			color:'#50B432' ,
+			lineWidth: 3  ,
+			enableMouseTracking: true,
+			dataLabels: {
+                enabled: true,
+				style: {"color": "#50B432" }
+			}
         },{
             name: 'Sogou',
-            data: [<?php echo $SRPV_Anti_fraud;?>]  
+            data: [<?php echo $SRPV_Anti_fraud;?>]  ,
+			color:'#ED561B' ,
+			lineWidth: 3  ,
+			enableMouseTracking: true,
+			dataLabels: {
+                enabled: true,
+				style: {"color": "#ED561B" }
+			}
+        },{
+            name: 'SML Linear',
+            data: SRPV_filtered_linearArr,
+			color:'#000000',
+			lineWidth: 1   ,
+			dashStyle: 'LongDashDot',
+			marker: {
+					fillColor: '#000000',//点填充色
+                    lineColor: '#000000',//点边框色
+                    enabled: true,
+                    symbol: 'circle',//曲线点类型："circle", "square", "diamond", "triangle","triangle-down"，默认是"circle"
+                    radius: 2 //曲线点半径，默认是4
+                    
+                },
+			dataLabels: {
+                    enabled: false
+                }
+        },{
+            name: 'DSQ Linear',
+            data: DSQ_linearArr,
+			color:'#000000',
+			lineWidth: 1   ,
+			dashStyle: 'LongDashDot',
+			marker: {
+					fillColor: '#000000',//点填充色
+                    lineColor: '#000000',//点边框色
+                    enabled: true,
+                    symbol: 'circle',//曲线点类型："circle", "square", "diamond", "triangle","triangle-down"，默认是"circle"
+                    radius: 2 //曲线点半径，默认是4
+                    
+                },
+			dataLabels: {
+                    enabled: false
+                }
+        },{
+            name: 'Sogou Linear',
+            data: SRPV_Anti_fraud_linearArr,
+			color:'#000000',
+			lineWidth: 1   ,
+			dashStyle: 'LongDashDot',
+			marker: {
+					fillColor: '#000000',//点填充色
+                    lineColor: '#000000',//点边框色
+                    enabled: true,
+                    symbol: 'circle',//曲线点类型："circle", "square", "diamond", "triangle","triangle-down"，默认是"circle"
+                    radius: 2 //曲线点半径，默认是4
+                    
+                },
+			dataLabels: {
+                    enabled: false
+                }
         }
 		
 		]
