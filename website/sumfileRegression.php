@@ -147,7 +147,8 @@ $Impressions_Raw  .= "".$row['Impressions_Raw'].",";
 $Impressions_Anti_fraud  .= "".$row['Impressions_Anti_fraud'].",";
 $Clicks_Raw  .= "".$row['Clicks_Raw'].",";
 $Clicks_Anti_fraud  .= "".$row['Clicks_Anti_fraud'].",";
-
+$ECPM  .= "".$row['ECPM'].",";
+$Revenue  .= "".$row['Revenue'].",";
 
 
 if($SRPV_Raw == NULL )$SRPV_Raw=0;
@@ -163,6 +164,10 @@ $Impressions_Raw_Linear .= "[".$number.",".$row['Impressions_Raw']."],";
 $Impressions_Anti_fraud_Linear .= "[".$number.",".$row['Impressions_Anti_fraud']."],";
 $Clicks_Raw_Linear .= "[".$number.",".$row['Clicks_Raw']."],";
 $Clicks_Anti_fraud_Linear .= "[".$number.",".$row['Clicks_Anti_fraud']."],";
+
+$ECPM_Linear .= "[".$number.",".$row['ECPM']."],";
+$Revenue_Linear .= "[".$number.",".$row['Revenue']."],";
+
 $number++;
 
 }
@@ -179,6 +184,10 @@ $Impressions_Raw_Linear = substr($Impressions_Raw_Linear ,0, strlen($Impressions
 $Impressions_Anti_fraud_Linear = substr($Impressions_Anti_fraud_Linear ,0, strlen($Impressions_Anti_fraud_Linear)-1); 
 $Clicks_Raw_Linear = substr($Clicks_Raw_Linear ,0, strlen($Clicks_Raw_Linear)-1); 
 $Clicks_Anti_fraud_Linear = substr($Clicks_Anti_fraud_Linear ,0, strlen($Clicks_Anti_fraud_Linear)-1); 
+$ECPM_Linear = substr($ECPM_Linear ,0, strlen($ECPM_Linear)-1); 
+$Revenue_Linear = substr($Revenue_Linear ,0, strlen($Revenue_Linear)-1);
+$ECPM = substr($ECPM ,0, strlen($ECPM)-1);
+$Revenue = substr($Revenue ,0, strlen($Revenue)-1);
 	//mysqli_close($db);
 	
 
@@ -847,6 +856,148 @@ $(function () {
     });
 });
 
+
+//////////////////ECPM(RPM)////////////////////
+$(function () {
+	var ECPM_data = [<?php echo $ECPM_Linear ;?>];
+	var ECPM_myRegression = regression('linear', ECPM_data);
+ 	var ECPM_linearArr= new Array();	
+			
+	for(var i=0;i < ECPM_myRegression.points.length ;i++){
+		 ECPM_linearArr[i] = Math.round(ECPM_myRegression.points[i][1]*1000)/1000;
+	}
+	//alert(ECPM_linearArr);
+	
+	$('#containerCF1').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: ' ECPM(RPM) '
+        },
+        subtitle: {
+            text: ' ECPM '
+        },
+        xAxis: {
+            categories: [<?php echo $categories;?>]//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: 'request'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [
+		{
+            name: 'ECPM',
+            data:  [<?php echo $ECPM;?>] ,
+			color:'#058DC7' ,
+			lineWidth: 3  ,
+			enableMouseTracking: true,
+			dataLabels: {
+                enabled: true,
+				style: {"color": "#058DC7" }
+			}
+       },{
+            name: 'ECPM Linear',
+            data: ECPM_linearArr,
+			color:'#000000',
+			lineWidth: 1   ,
+			dashStyle: 'LongDashDot',
+			marker: {
+					fillColor: '#000000',//点填充色
+                    lineColor: '#000000',//点边框色
+                    enabled: true,
+                    symbol: 'circle',//曲线点类型："circle", "square", "diamond", "triangle","triangle-down"，默认是"circle"
+                    radius: 2 //曲线点半径，默认是4
+                    
+                },
+			dataLabels: {
+                    enabled: false
+                }
+        } 
+		
+		]
+    });
+});
+
+
+///////////////点击收入-元(Revenue-RMB)’)//////////////
+$(function () {
+	var Revenue_data = [<?php echo $Revenue_Linear ;?>];
+	var Revenue_myRegression = regression('linear', Revenue_data);
+ 	var Revenue_linearArr= new Array();	
+			
+	for(var i=0;i < Revenue_myRegression.points.length ;i++){
+		 Revenue_linearArr[i] = Math.round(Revenue_myRegression.points[i][1]);
+	}
+	$('#containerCF2').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: ' 点击收入-元(Revenue-RMB) '
+        },
+        subtitle: {
+            text: ' Revenue '
+        },
+        xAxis: {
+            categories: [<?php echo $categories;?>]//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: 'request'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [
+		{
+            name: 'Revenue',
+            data:  [<?php echo $Revenue;?>] ,
+			color:'#058DC7' ,
+			lineWidth: 3  ,
+			enableMouseTracking: true,
+			dataLabels: {
+                enabled: true,
+				style: {"color": "#058DC7" }
+			}
+       } ,{
+            name: 'Revenue Linear',
+            data: Revenue_linearArr,
+			color:'#000000',
+			lineWidth: 1   ,
+			dashStyle: 'LongDashDot',
+			marker: {
+					fillColor: '#000000',//点填充色
+                    lineColor: '#000000',//点边框色
+                    enabled: true,
+                    symbol: 'circle',//曲线点类型："circle", "square", "diamond", "triangle","triangle-down"，默认是"circle"
+                    radius: 2 //曲线点半径，默认是4
+                    
+                },
+			dataLabels: {
+                    enabled: false
+                }
+        }
+		
+		]
+    });
+});
+
 		</script>
 <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
 <script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
@@ -889,7 +1040,9 @@ $(function () {
       <div id="containerIP" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
 	<div id="containerIPF" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
       <div id="containerC" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
-	<div id="containerCF" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	<div id="containerCF" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+	<div id="containerCF1" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+	<div id="containerCF2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   </div>
 
 </div>
