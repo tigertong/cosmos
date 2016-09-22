@@ -70,7 +70,7 @@ $Revenue = substr($Revenue ,0, strlen($Revenue)-1);*/
 
 
 $(function () {
-    $('#container').highcharts({
+    $('#container0').highcharts({
         chart: {
             type: 'line'
         },
@@ -187,7 +187,7 @@ $(function () {
 });
 
 $(function () {
-    $('#containerIP').highcharts({
+    $('#container2').highcharts({
         chart: {
             type: 'line'
         },
@@ -236,7 +236,7 @@ $(function () {
 });
 
 $(function () {
-    $('#containerIPF').highcharts({
+    $('#container3').highcharts({
         chart: {
             type: 'line'
         },
@@ -285,7 +285,7 @@ $(function () {
 });
 
 $(function () {
-    $('#containerC').highcharts({
+    $('#container4').highcharts({
         chart: {
             type: 'line'
         },
@@ -369,12 +369,12 @@ $(function () {
 	stopdate:<input type="text" id="stopdate" name="stopdate" size="20" value="<?php echo $stopdate ; ?>"><br><input name="submit" value="submit" id="submit"  type="submit" />
 	</form>
 	</p>
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+    <div id="container0" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
 	<div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
-      <div id="containerIP" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
-	<div id="containerIPF" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
-      <div id="containerC" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
-	<div id="containerCF" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+      <div id="container2" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+	<div id="container3" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+      <div id="container4" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+ 
   </div>
 
 </div>

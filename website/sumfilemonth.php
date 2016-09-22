@@ -1740,7 +1740,7 @@ $str_Revenue = monthkArrMappingLinear($DATA_ARR[$i]['Revenue']);
         <td width="150"><a href="sumfilemonth.php"> by Month</a></td>
       </tr>
     </table><p>
-	<form   action='sumfile1.php' method='get'>
+	<form   action='sumfilemonth.php' method='get'>
 	startdate:<input type="text" id="startdate" name="startdate" size="20" value="<?php echo $startdate ; ?>"><br> 
 	stopdate:<input type="text" id="stopdate" name="stopdate" size="20" value="<?php echo $stopdate ; ?>"><br><input name="submit" value="submit" id="submit"  type="submit" />
 	</form>
