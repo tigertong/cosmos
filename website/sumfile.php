@@ -395,7 +395,19 @@ $(function () {
 	  	  <a href="fromCode.php" > <button class="btn" theme="grid">From Code distribution</button></a>
 <a href="sumfile.php" > <button class="btn" theme="grid">SumFile distribution</button></a>
 <a href="sougou.php" > <button class="btn" theme="grid">sougou distribution</button></a>
-    </p><p>
+    </p>
+	<br />
+	            
+	<table width="600" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="150"><a href="sumfile.php">normal tread</a></td>
+        <td width="150"><a href="sumfileRegression.php">Linear Regression</a></td>
+        <td width="150"><a href="sumfileweek.php">by Week</a></td>
+        <td width="150"><a href="sumfilemonth.php"> by Month</a></td>
+      </tr>
+    </table>
+	
+	<p>
 	<form   action='sumfile.php' method='get'>
 	startdate:<input type="text" id="startdate" name="startdate" size="20" value="<?php echo $startdate ; ?>"><br> 
 	stopdate:<input type="text" id="stopdate" name="stopdate" size="20" value="<?php echo $stopdate ; ?>"><br><input name="submit" value="submit" id="submit"  type="submit" />

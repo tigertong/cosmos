@@ -5,7 +5,13 @@
 <title>stats</title>
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
-<script src="./css/hm.js"></script><script src="./css/share.js"></script><link rel="stylesheet" href="./css/share_style0_24.css"></head>
+<script src="./css/hm.js"></script><script src="./css/share.js"></script><link rel="stylesheet" href="./css/share_style0_24.css">
+<style type="text/css">
+<!--
+.STYLE1 {color: #FF0000}
+-->
+</style>
+</head>
 		<script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
 		<style type="text/css">
 ${demo.css}
@@ -336,7 +342,7 @@ $(function () {
 <div id="demo">
   <div id="demo_content">
     <div class="page-header">
-      <h1>sougou traffic SumFile trend by week</h1>
+      <h1>sougou traffic SumFile trend by <span class="STYLE1">week</span></h1>
       <div class="clear"></div>
     </div>
     <p> 图表主题：
@@ -348,18 +354,27 @@ $(function () {
 	  	  <a href="fromCode.php" > <button class="btn" theme="grid">From Code distribution</button></a>
 <a href="sumfile.php" > <button class="btn" theme="grid">SumFile distribution</button></a>
 <a href="sougou.php" > <button class="btn" theme="grid">sougou distribution</button></a>
-    </p><p>
+    </p>	<br />
+	            
+	<table width="600" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="150"><a href="sumfile.php">normal tread</a></td>
+        <td width="150"><a href="sumfileRegression.php">Linear Regression</a></td>
+        <td width="150"><a href="sumfileweek.php">by Week</a></td>
+        <td width="150"><a href="sumfilemonth.php"> by Month</a></td>
+      </tr>
+    </table><p>
 	<form   action='sumfileweek.php' method='get'>
 	startdate:<input type="text" id="startdate" name="startdate" size="20" value="<?php echo $startdate ; ?>"><br> 
 	stopdate:<input type="text" id="stopdate" name="stopdate" size="20" value="<?php echo $stopdate ; ?>"><br><input name="submit" value="submit" id="submit"  type="submit" />
 	</form>
 	</p>
-    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-	<div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-      <div id="containerIP" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-	<div id="containerIPF" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-      <div id="containerC" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-	<div id="containerCF" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+	<div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+      <div id="containerIP" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+	<div id="containerIPF" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+      <div id="containerC" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+	<div id="containerCF" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
   </div>
 
 </div>
