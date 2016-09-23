@@ -15,8 +15,8 @@ ${demo.css}
 	
 	$start = $_GET["startdate"];
 	$stop =  $_GET["stopdate"];
-	if ($start == ""){$start="2018-08-01";}
-	if ($stop == ""){$start="2018-08-31";}
+	if ($start == ""){$start="2016-08-01";}
+	if ($stop == ""){$stop="2016-09-30";}
 	?>	
 
 
@@ -89,7 +89,8 @@ if (isset($_GET["submit"]) && isset($_GET["startdate"]) && isset($_GET["stopdate
 $startdate = $_GET["startdate"];
 $stopdate = $_GET["stopdate"];
 
-$result = mysqli_query($db,"SELECT *  FROM Sogou_data where date>='$startdate' and date <='$stopdate'");
+$result = mysqli_query($db,"SELECT *  FROM Sogou_data where date>='$startdate' and date <='$stopdate' order by date asc");
+//echo "SELECT *  FROM Sogou_data where date>='$startdate' and date <='$stopdate'";
 $type =0;
 while($row4 = mysqli_fetch_array($result,MYSQLI_ASSOC))
  {

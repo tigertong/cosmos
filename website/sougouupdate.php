@@ -162,14 +162,13 @@ $Coverage_Raw_14 =  ($Coverage_Anti_fraud -$Coverage_Anti_fraud_2weekago )/$Cove
 }
 
 
-
 if($CPC_1weekago==0){$CPC_7 = 0;}
 else{
-$CPC_7 =  ($CPC_1weekago -$CPC )/$CPC ; //’=(Day8有效点击量-Day1有效点击量)/Day1有效点击量示
+$CPC_7 =  ($CPC -$CPC_1weekago )/$CPC_1weekago ; //’=(Day8有效点击量-Day1有效点击量)/Day1有效点击量示
 }
 if($CPC_2weekago==0){$CPC_14 = 0;}
 else{
-$CPC_14 =  ($CPC_2weekago -$CPC )/$CPC ; //’=(Day15有效点击量Day1有效点击量)/Day1有效点击量展示量
+$CPC_14 =  ($CPC -$CPC_2weekago )/$CPC_2weekago ; //’=(Day15有效点击量Day1有效点击量)/Day1有效点击量展示量
 }
 
 $Years = date("Y", strtotime($date));
