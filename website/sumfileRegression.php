@@ -1,3 +1,4 @@
+<?php ini_set('date.timezone','Asia/Shanghai'); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -38,6 +39,26 @@
 ${demo.css}
 		</style>
 	<?php
+	
+function getCategory($start,$stop){
+	$categories_1 = "";
+	$i=90;
+	$type=0;
+	$stop_date = $start;
+	while($type==0){
+		$stop_date = date("Y-m-d", strtotime("$stop_date +1 day"));
+		
+		$categories_1	 .= "'".$stop_date."',";
+		
+		if($stop_date == $stop)$type=1;
+		$i++;
+		if($i==90)$type=1;
+		
+	}
+	$categories_1 = substr($categories_1 ,0, strlen($categories_1)-1);
+	return $categories_1;
+}	
+	
 $contentdate = $_GET["date"];	
 require_once("./db.conf.php");
 echo $_GET['submit'].$_GET['startdate'].$_GET["stopdate"];
@@ -47,7 +68,7 @@ $stopdate = "2016-09-05";
 if (isset($_GET["submit"]) && isset($_GET["startdate"]) && isset($_GET["stopdate"])) {
 $startdate = $_GET["startdate"];
 $stopdate = $_GET["stopdate"];
-
+$categories_1 =  getCategory($startdate,$stopdate);
 
 
 $number=1;
@@ -190,7 +211,7 @@ $ECPM = substr($ECPM ,0, strlen($ECPM)-1);
 $Revenue = substr($Revenue ,0, strlen($Revenue)-1);
 	//mysqli_close($db);
 	
-
+if(strlen($categories) < strlen($categories_1)) $categories = $categories_1;
 
 }
 	

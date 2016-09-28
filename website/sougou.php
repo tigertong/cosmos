@@ -142,20 +142,20 @@ $limitation2=-20;
           <td width="41"><?php echo $db_CTR                        ;?></td>
           <td width="41"><?php echo $db_ECPM                       ;?></td>
           <td width="41"><?php echo $db_CPC                        ;?></td>
-		  <td width="41"  <?php if ($db_Revenue_7 >=$limitation1 || $db_Revenue_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Revenue_7                  ;?>%</td>
-		  <td width="41"  <?php if ($db_Revenue_14 >=$limitation1 || $db_Revenue_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Revenue_14                 ;?>%</td>
-		  <td width="41"  <?php if ($db_SRPV_7 >=$limitation1 || $db_SRPV_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_SRPV_7                     ;?>%</td>
-		  <td width="41  <?php if ($db_SRPV_14 >=$limitation1 || $db_SRPV_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> "><?php echo $db_SRPV_14                    ;?>%</td>
-		  <td width="41"  <?php if ($db_Impressions_7 >=$limitation1 || $db_Impressions_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Impressions_7              ;?>%</td>
-		  <td width="41"  <?php if ($db_Impressions_14 >=$limitation1 || $db_Impressions_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Impressions_14             ;?>%</td>
-		  <td width="41"  <?php if ($db_Clicks_7 >=$limitation1 || $db_Clicks_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Clicks_7                   ;?>%</td>
-		  <td width="41"  <?php if ($db_Clicks_14 >=$limitation1 || $db_Clicks_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Clicks_14                  ;?>%</td>
-<td width="41"  <?php if ($db_ECPM_7 >=$limitation1 || $db_ECPM_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_ECPM_7                     ;?>%</td>
-<td width="41"  <?php if ($db_ECPM_14 >=$limitation1 || $db_ECPM_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_ECPM_14                    ;?>%</td>
-<td width="41"  <?php if ($db_Coverage_Raw_7 >=$limitation1 || $db_Coverage_Raw_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Coverage_Raw_7             ;?>%</td>
-<td width="41"  <?php if ($db_Coverage_Raw_14 >=$limitation1 || $db_Coverage_Raw_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Coverage_Raw_14            ;?>%</td>
-<td width="41"  <?php if ($db_CPC_7 >=$limitation1 || $db_CPC_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_CPC_7                      ;?>%</td>
-<td width="41"  <?php if ($db_CPC_14 >=$limitation1 || $db_CPC_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_CPC_14                     ;?>%</td></tr>
+		  <td width="41"  <?php if ($db_Revenue_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ($db_Revenue_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Revenue_7                  ;?>%</td>
+		  <td width="41"  <?php if ($db_Revenue_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Revenue_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Revenue_14                 ;?>%</td>
+		  <td width="41"  <?php if ($db_SRPV_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_SRPV_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_SRPV_7                     ;?>%</td>
+		  <td width="41  <?php if ($db_SRPV_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ($db_SRPV_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> "><?php echo $db_SRPV_14                    ;?>%</td>
+		  <td width="41"  <?php if ($db_Impressions_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Impressions_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Impressions_7              ;?>%</td>
+		  <td width="41"  <?php if ($db_Impressions_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Impressions_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Impressions_14             ;?>%</td>
+		  <td width="41"  <?php if ($db_Clicks_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Clicks_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Clicks_7                   ;?>%</td>
+		  <td width="41"  <?php if ($db_Clicks_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Clicks_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Clicks_14                  ;?>%</td>
+<td width="41"  <?php if ($db_ECPM_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_ECPM_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_ECPM_7                     ;?>%</td>
+<td width="41"  <?php if ($db_ECPM_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_ECPM_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_ECPM_14                    ;?>%</td>
+<td width="41"  <?php if ($db_Coverage_Raw_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Coverage_Raw_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Coverage_Raw_7             ;?>%</td>
+<td width="41"  <?php if ($db_Coverage_Raw_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Coverage_Raw_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Coverage_Raw_14            ;?>%</td>
+<td width="41"  <?php if ($db_CPC_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_CPC_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_CPC_7                      ;?>%</td>
+<td width="41"  <?php if ($db_CPC_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_CPC_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_CPC_14                     ;?>%</td></tr>
 <?php
 
 }
