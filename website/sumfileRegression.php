@@ -46,18 +46,16 @@ function getCategory($start,$stop){
 	$type=0;
 	$stop_date = $start;
 	while($type==0){
-		$stop_date = date("Y-m-d", strtotime("$stop_date +1 day"));
-		
 		$categories_1	 .= "'".$stop_date."',";
-		
 		if($stop_date == $stop)$type=1;
 		$i++;
 		if($i==90)$type=1;
+		$stop_date = date("Y-m-d", strtotime("$stop_date +1 day"));
 		
 	}
 	$categories_1 = substr($categories_1 ,0, strlen($categories_1)-1);
 	return $categories_1;
-}	
+}
 	
 $contentdate = $_GET["date"];	
 require_once("./db.conf.php");
