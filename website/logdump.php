@@ -12,8 +12,15 @@ $datemonth = $argv[1];
 $date = $argv[2];
 }
 
-$date = $_GET['date'];
-$datemonth = $_GET['datemonth'];
+
+if(isset($_GET['date']) && isset($_GET['datemonth'])){
+	$date = $_GET['date'];
+	$datemonth = $_GET['datemonth'];
+}
+
+
+	$date = $_GET['date'];
+	$datemonth = $_GET['datemonth'];
 
 
 //$_localpath="C:/BingAds";
