@@ -31,7 +31,7 @@ $datarow1="";
 $result = mysqli_query($db,"SELECT *  FROM QUinfo  WHERE date='$date'   ORDER BY NUMBEROFQU DESC limit 0,30; ");
 while($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
  {
- if ($row['RF'] != "null"){
+ if ($row['Query_RawQuery'] != "null"){
 $categories .= "'".$row['Query_RawQuery']."',";
 $datarow .= "[0,". $row['NUMBEROFQU']."],";
 // [-9.7, 9.4],
