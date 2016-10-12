@@ -116,7 +116,7 @@ $(function () {
 <div id="demo">
   <div id="demo_content">
     <div class="page-header">
-      <h1>sougou stats</h1>
+      <h1>sougou stats request refer <?php echo $submitdate; ?></h1>
       <div class="clear"></div>
     </div>
     <p> 图表主题：

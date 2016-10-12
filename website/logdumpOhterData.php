@@ -49,31 +49,40 @@ require_once($_localpath."/CODE/website/db.conf.php");
 
 // Open a known directory, and proceed to read its contents
 
-/*if(file_exists("$_localpath/logs/FCDistribution_$date.csv")) {
+if(file_exists("$_localpath/logs/FCDistribution_$date.csv")) {
+echo "-------FCDistribution_-------- <br>";
 	file_handle("$_localpath/logs/FCDistribution_$date.csv",$db);                                
 }     
 if(file_exists("$_localpath/logs/IPSumFile_$date.csv"))	{
+echo "-------IPSumFile_-------- <br>";
 	file_handle("$_localpath/logs/IPSumFile_$date.csv",$db);                                     
 }
 if(file_exists("$_localpath/logs/QUDistribution_$date.csv")){
+echo "-------QUDistribution_-------- <br>";
 	file_handle("$_localpath/logs/QUDistribution_$date.csv",$db);                               
  }
 if(file_exists("$_localpath/logs/RFDistribution_$date.csv")){
+echo "-------RFDistribution_-------- <br>";
 	file_handle("$_localpath/logs/RFDistribution_$date.csv",$db);                                
 }
 if(file_exists("$_localpath/logs/RFDomainDistribution_$date.csv")){
+echo "-------RFDomainDistribution_-------- <br>";
 	file_handle("$_localpath/logs/RFDomainDistribution_$date.csv",$db);                          
 }
 if(file_exists("$_localpath/logs/State_GROUPBY_Distribution_$date.csv")){
+echo "-------State_GROUPBY_Distribution_-------- <br>";
 	file_handle("$_localpath/logs/State_GROUPBY_Distribution_$date.csv",$db);                   
 }
 if(file_exists("$_localpath/logs/TOP_GROUPBY_Location_Distribution_$date.csv")){
+echo "-------TOP_GROUPBY_Location_Distribution_-------- <br>";
 	file_handle("$_localpath/logs/TOP_GROUPBY_Location_Distribution_$date.csv",$db);             
 }
 if(file_exists("$_localpath/logs/TOP_IP_GROUPBY_Distribution_$date.csv")){
+echo "-------TOP_IP_GROUPBY_Distribution_-------- <br>";
 	file_handle("$_localpath/logs/TOP_IP_GROUPBY_Distribution_$date.csv",$db);                   
-}*/
+}
 if(file_exists("$_localpath/logs/UADistribution_$date.csv")){
+echo "-------UADistribution_-------- <br>";
 	file_handle("$_localpath/logs/UADistribution_$date.csv",$db);                                
 }
 
@@ -83,8 +92,11 @@ function file_handle($filename,$db){
 	$conts = file_get_contents($filename);
 	$arrConts = explode("\n",$conts);
 	//print_r($arrConts);
+	$i=0;
 	foreach($arrConts as $cont){
 		if($cont== NULL) continue;
+		if($i>=1000) break;
+		$cont = str_replace("\\","",$cont);
 		$cont = str_replace("'","\'",$cont);
 		$data = explode("	",$cont); 
 		$filecheckArr=explode("/", $filename);
