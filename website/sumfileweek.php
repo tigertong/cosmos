@@ -361,7 +361,7 @@ $(function () {
         <td width="150"><a href="sumfile.php">normal tread</a></td>
         <td width="150"><a href="sumfileRegression.php">Linear Regression</a></td>
         <td width="150"><a href="sumfileweek.php">by Week</a></td>
-        <td width="150"><a href="sumfilemonth.php"> by Month</a></td>
+        <td width="150"><a href="sumfilemonth.php"> by Month</a></td><td width="150"><a href="sumfilemixed.php"> mixed trend</a></td>
       </tr>
     </table><p>
 	<form   action='sumfileweek.php' method='get'>
