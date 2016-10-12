@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
 <script src="./css/hm.js"></script><script src="./css/share.js"></script><link rel="stylesheet" href="./css/share_style0_24.css"></head>
-		<script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 		<style type="text/css">
 ${demo.css}
 		</style>
@@ -132,8 +132,8 @@ $(function () {
 	date:<input type="text" id="date" name="date" size="20" value="<?php echo $submitdate; ?>"> <input name="submit" value="submit" id="submit"  type="submit" />
 	</form>
 	</p><p>
-<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js/exporting.js"></script>
 
 <div id="container" style="min-width: 300px; height: 1200px; margin: 0 auto"></div>
 

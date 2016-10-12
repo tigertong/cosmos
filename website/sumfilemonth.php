@@ -1709,8 +1709,8 @@ $str_Revenue = monthkArrMappingLinear($DATA_ARR[$i]['Revenue']);
     });
 });
 		</script>
-<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js/exporting.js"></script>
 
 </head>
 

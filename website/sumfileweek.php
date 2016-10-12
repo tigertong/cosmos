@@ -12,7 +12,7 @@
 -->
 </style>
 </head>
-		<script type="text/javascript" src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 		<style type="text/css">
 ${demo.css}
 		</style>
@@ -333,8 +333,8 @@ $(function () {
     });
 });
 		</script>
-<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js/exporting.js"></script>
 
 </head>
 
