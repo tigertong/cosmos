@@ -122,6 +122,7 @@ if(strlen($categories) < strlen($categories_1)) $categories = $categories_1;
 $Clicks_arr_max = $Clicks_arr[array_search(max($Clicks_arr), $Clicks_arr)];
 $Clicks_arr_min = $Clicks_arr[array_search(min($Clicks_arr), $Clicks_arr)];
 $Clicks="";
+
 foreach($Clicks_arr as $value){ 
     $tmp = round(($value - $Clicks_arr_min)/($Clicks_arr_max - $Clicks_arr_min) * 10000000)/10000000;
     $Clicks  .= "".$tmp.",";   //(x-min(X))/(max(X)-min(X))
@@ -142,6 +143,7 @@ $Clicks_filtered = substr($Clicks_filtered ,0, strlen($Clicks_filtered)-1);
 $ECPM_arr_max = $ECPM_arr[array_search(max($ECPM_arr), $ECPM_arr)];
 $ECPM_arr_min = $ECPM_arr[array_search(min($ECPM_arr), $ECPM_arr)];
 $ECPM="";
+
 foreach($ECPM_arr as $value){ 
     $tmp = round(($value - $ECPM_arr_min)/($ECPM_arr_max - $ECPM_arr_min) * 10000000)/10000000;
     $ECPM  .= "".$tmp.",";   //(x-min(X))/(max(X)-min(X))
@@ -162,6 +164,7 @@ $Revenue = substr($Revenue ,0, strlen($Revenue)-1);
 $Clicks_Raw_arr_max = $Clicks_Raw_arr[array_search(max($Clicks_Raw_arr), $Clicks_Raw_arr)];
 $Clicks_Raw_arr_min = $Clicks_Raw_arr[array_search(min($Clicks_Raw_arr), $Clicks_Raw_arr)];
 $Clicks_Raw="";
+
 foreach($Clicks_Raw_arr as $value){ 
     $tmp = round(($value - $Clicks_Raw_arr_min)/($Clicks_Raw_arr_max - $Clicks_Raw_arr_min) * 10000000)/10000000;
     $Clicks_Raw  .= "".$tmp.",";   //(x-min(X))/(max(X)-min(X))
@@ -193,6 +196,7 @@ $(function () {
          chart: {
             type: 'line'
         },
+		credits : {      enabled : true,      text : ""  }, 
         title: {
             text: 'Min-Max Normalization'
         },
@@ -205,7 +209,8 @@ $(function () {
         yAxis: {
             title: {
                 text: 'request'
-            }
+            },
+			tickInterval: 0.05
         },
         plotOptions: {
             line: {
@@ -217,22 +222,22 @@ $(function () {
         },
         series: [{
             name: 'Raw Clicks_SML_Norm',
-            data: [<?php echo $Clicks;?>] //[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            data: [<?php echo $Clicks;?>] 
         },{
             name: 'Clicks-filtered_SML_Norm',
-            data: [<?php echo $Clicks_filtered;?> ] //[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            data: [<?php echo $Clicks_filtered;?> ] 
         },{
             name: 'Raw Clicks_Sogou_Norm',
-            data: [<?php echo $Clicks_Raw;?>] //[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            data: [<?php echo $Clicks_Raw;?>] 
         },{
             name: 'Clicks-filtered_Sogou_Norm',
-            data: [<?php echo $Clicks_Anti_fraud;?> ] //[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            data: [<?php echo $Clicks_Anti_fraud;?> ] 
         },{
             name: 'ECPM(RPM)_Norm',
-            data: [<?php echo $ECPM;?>] //[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            data: [<?php echo $ECPM;?>] 
         },{
             name: 'Revenue_Norm',
-            data: [<?php echo $Revenue;?> ] //[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            data: [<?php echo $Revenue;?> ]
         }  
 		
 		]
@@ -240,6 +245,47 @@ $(function () {
 });
 
 
+
+$(function () {
+    $('#container1').highcharts({
+         chart: {
+            type: 'line'
+        },
+		credits : {      enabled : true,      text : ""  }, 
+        title: {
+            text: 'Min-Max Normalization'
+        },
+        subtitle: {
+            text: ' Min-Max Normalization '
+        },
+        xAxis: {
+            categories: [<?php echo $categories;?>]
+        },
+        yAxis: {
+            title: {
+                text: 'request'
+            },
+			tickInterval: 0.05
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [{
+            name: 'Raw Clicks_SML_Norm',
+            data: [<?php echo $Clicks;?>] 
+        },{
+            name: 'Clicks-filtered_SML_Norm',
+            data: [<?php echo $Clicks_filtered;?> ] 
+        } 
+		
+		]
+    });
+});
 		</script>
 <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
 <script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
@@ -271,6 +317,7 @@ $(function () {
         <td width="150"><a href="sumfileRegression.php">Linear Regression</a></td>
         <td width="150"><a href="sumfileweek.php">by Week</a></td>
         <td width="150"><a href="sumfilemonth.php"> by Month</a></td>
+		<td width="150"><a href="sumfilemixed.php"> mixed trend</a></td>
       </tr>
     </table>
 	
@@ -281,6 +328,7 @@ $(function () {
 	</form>
 	</p>
     <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	<div id="container1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <br><br>
   </div>
 
