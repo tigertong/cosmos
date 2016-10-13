@@ -2,12 +2,18 @@
 //Used for tracking history
 
 
-#DECLARE StartDate string = @"2016-08-20";
+#DECLARE StartDate string = @"2016-09-27";//@"2016-10-04";
 //#DECLARE StartDate string = ( @@StartDateStr == "" ? @"2016-08-21" : @@StartDateStr); 
-#DECLARE EndDate string = @"2016-08-25";
-#DECLARE QueryStartTime string = @"2016-08-22 09:00:00"; //(2016-08-21 00:00:00 -15hours)
-#DECLARE QueryEndTime string = @"2016-08-23 09:00:00";
-#DECLARE CheckDate string = @"2016-08-23";
+//#DECLARE EndDate string = @"2016-08-27";
+//#DECLARE QueryStartTime string = @"2016-08-25 09:00:00"; //(2016-08-21 00:00:00 -15hours)
+//#DECLARE QueryEndTime string = @"2016-08-26 09:00:00";
+//#DECLARE CheckDate string = @"2016-08-26";
+
+#DECLARE EndDate string = DateTime.Parse(@StartDate).AddDays(5).ToString("yyyy-MM-dd");
+#DECLARE QueryStartTime string = DateTime.Parse(@StartDate).AddDays(2).ToString("yyyy-MM-dd")+@" 09:00:00"; // DateTime.Today.AddDays(-@yesterday).ToString("yyyy-MM-dd")+@" 09:00:00";//@"2016-08-27 09:00:00"; //CheckData-1
+#DECLARE QueryEndTime string = DateTime.Parse(@StartDate).AddDays(3).ToString("yyyy-MM-dd")+@" 09:00:00"; //DateTime.Today.AddDays(-@today).ToString("yyyy-MM-dd")+@" 09:00:00";//@"2016-08-28 09:00:00";//CheckData
+#DECLARE CheckDate string = DateTime.Parse(@StartDate).AddDays(3).ToString("yyyy-MM-dd");//DateTime.Today.AddDays(-@today).ToString("yyyy-MM-dd");//@"2016-08-28";
+
 
 #DECLARE IPDistributionFile string = string.Format (@"/users/tigertong/sogouads/2016result/IP_GROUPBY_Distribution_{0}.ss", @CheckDate);
 #DECLARE TOPIPDistributionFile string = string.Format (@"/users/tigertong/sogouads/2016result/TOP_IP_GROUPBY_Distribution_{0}.csv", @CheckDate);
@@ -25,6 +31,21 @@
 
 #DECLARE QUDistributionFile string = string.Format (@"/users/tigertong/sogouads/2016result/QUDistribution_{0}.csv", @CheckDate);
 #DECLARE FCDistributionFile string = string.Format (@"/users/tigertong/sogouads/2016result/FCDistribution_{0}.csv", @CheckDate);
+
+//#DECLARE OutputFile string = string.Format(@"/users/tigertong/sogouads/2016basic/TotalLogSogou0820_{0}-{1}-{2}.ss", @StartDate, @EndDate, @CheckDate);
+#DECLARE IPSumFileFiltered string = string.Format (@"/users/tigertong/sogouads/2016result/IPSumFile_Filtered_{0}.csv", @CheckDate);
+#DECLARE UADistributionFileFiltered string = string.Format (@"/users/tigertong/sogouads/2016result/UADistribution_Filtered_{0}.csv", @CheckDate);
+#DECLARE RFDistributionFileFiltered string = string.Format (@"/users/tigertong/sogouads/2016result/RFDistribution_Filtered_{0}.csv", @CheckDate);
+#DECLARE RFDomainDistributionFileFiltered string = string.Format (@"/users/tigertong/sogouads/2016result/RFDomainDistribution_Filtered_{0}.csv", @CheckDate);
+
+#DECLARE IPDistributionFileFiltered string = string.Format (@"/users/tigertong/sogouads/2016result/IP_GROUPBY_Distribution_Filtered_{0}.ss", @CheckDate);
+#DECLARE TOPIPDistributionFileFiltered string = string.Format (@"/users/tigertong/sogouads/2016result/TOP_IP_GROUPBY_Distribution_Filtered_{0}.csv", @CheckDate);
+#DECLARE TOPLocationDistributionFileFiltered string = string.Format (@"/users/tigertong/sogouads/2016result/TOP_GROUPBY_Location_Distribution_Filtered_{0}.csv", @CheckDate);
+#DECLARE StateDistributionFileFiltered string = string.Format (@"/users/tigertong/sogouads/2016result/State_GROUPBY_Distribution_Filtered_{0}.csv", @CheckDate);
+
+#DECLARE QUDistributionFileFiltered string = string.Format (@"/users/tigertong/sogouads/2016result/QUDistribution_Filtered_{0}.csv", @CheckDate);
+#DECLARE FCDistributionFileFiltered string = string.Format (@"/users/tigertong/sogouads/2016result/FCDistribution_Filtered_{0}.csv", @CheckDate);
+
 
 
 /*SlapiPageViewDaily =
@@ -72,13 +93,17 @@ slapidata=
 
 OUTPUT slapidata TO SSTREAM @OutputFile;*/
 slapidata = SSTREAM @OutputFile;
-//stat sum report
+
+/*
+////////////////////////
+////// without filtered
+///////////////////////
 Sumdata = 
     SELECT Convert.ToDateTime(@CheckDate) AS  Date_Time, COUNT(DISTINCT(User_Ip)) AS IPs,
            COUNT(DISTINCT(Request_UserAgent.Trim())) AS Request_UserAgent,
            COUNT(DISTINCT(Request_Referrer.Trim())) AS Request_Referrer,
            COUNT(DISTINCT(Query_RawQuery.Trim())) AS Query_RawQuery
-    FROM slapidata
+    FROM slapidata   
     ;
 
 OUTPUT Sumdata TO @IPSumFile;
@@ -108,7 +133,8 @@ TOP_LocationDistributionSUMDate =
            User_City AS User_City,
            User_Lat AS User_Lat,
            User_Long AS User_Long ,SUM(NUMBEROFIP) AS NUMBEROFIP
-    FROM IP_DistributionSUMdata GROUP BY  Date_Time, User_CountryIso,  User_State, User_City, User_Lat, User_Long 
+    FROM IP_DistributionSUMdata      
+    GROUP BY  Date_Time, User_CountryIso,  User_State, User_City, User_Lat, User_Long 
     ORDER BY NUMBEROFIP DESC FETCH 1000 ROWS;
 
 OUTPUT TOP_LocationDistributionSUMDate TO @TOPLocationDistributionFile;
@@ -120,7 +146,8 @@ TOP_IP_DistributionSUMData =
            User_City AS User_City,
            User_Lat AS User_Lat,
            User_Long AS User_Long
-    FROM IP_DistributionSUMdata   ORDER BY NUMBEROFIP DESC FETCH 1000 ROWS;
+    FROM IP_DistributionSUMdata     
+    ORDER BY NUMBEROFIP DESC FETCH 1000 ROWS;
                                                      
 OUTPUT TOP_IP_DistributionSUMData TO @TOPIPDistributionFile;
 
@@ -129,7 +156,8 @@ State_DistributionSUMDate =
            User_CountryIso  AS User_CountryIso, 
            User_State AS User_State,
            SUM(NUMBEROFIP) AS NUMBEROFIP
-    FROM IP_DistributionSUMdata GROUP BY  Date_Time, User_CountryIso,  User_State
+    FROM IP_DistributionSUMdata      
+    GROUP BY  Date_Time, User_CountryIso,  User_State
     ORDER BY NUMBEROFIP DESC FETCH 1000 ROWS;
 
 OUTPUT State_DistributionSUMDate TO @StateDistributionFile;
@@ -188,6 +216,138 @@ QUDistributiondata =
     GROUP BY Date_Time, Query_RawQuery ORDER BY NUMBEROFQU DESC FETCH 1000 ROWS;
 
 OUTPUT QUDistributiondata TO @QUDistributionFile;
+////QUERY END
+///////////////
+*/
+
+////////////////////////
+//////filtered report
+////////////////////////
+SumdataFiltered = 
+    SELECT Convert.ToDateTime(@CheckDate) AS  Date_Time, COUNT(DISTINCT(User_Ip)) AS IPs,
+           COUNT(DISTINCT(Request_UserAgent.Trim())) AS Request_UserAgent,
+           COUNT(DISTINCT(Request_Referrer.Trim())) AS Request_Referrer,
+           COUNT(DISTINCT(Query_RawQuery.Trim())) AS Query_RawQuery
+    FROM slapidata   
+    WHERE Request_IsNormalTraffic     
+    ;
+
+OUTPUT SumdataFiltered TO @IPSumFileFiltered;
+
+////IP START
+///////////////
+//IP DIS father table
+IP_DistributionSUMdataFiltered = 
+    SELECT Convert.ToDateTime(@CheckDate) AS Date_Time, 
+           User_Ip AS User_Ip,
+           User_CountryIso  AS User_CountryIso, 
+           User_State AS User_State,
+           User_City AS User_City,
+           User_Lat AS User_Lat,
+           User_Long AS User_Long , 
+           COUNT(*) AS NUMBEROFIP                                                                   
+                                                         
+    FROM slapidata
+    WHERE Request_IsNormalTraffic
+    GROUP BY Date_Time,User_Ip,User_CountryIso,User_State,User_City,User_Lat,User_Long ;
+
+OUTPUT IP_DistributionSUMdataFiltered TO SSTREAM @IPDistributionFileFiltered ;
+
+TOP_LocationDistributionSUMDateFiltered  = 
+    SELECT   Date_Time AS  Date_Time,
+           User_CountryIso  AS User_CountryIso, 
+           User_State AS User_State,
+           User_City AS User_City,
+           User_Lat AS User_Lat,
+           User_Long AS User_Long ,SUM(NUMBEROFIP) AS NUMBEROFIP
+    FROM IP_DistributionSUMdataFiltered      
+    GROUP BY  Date_Time, User_CountryIso,  User_State, User_City, User_Lat, User_Long 
+    ORDER BY NUMBEROFIP DESC FETCH 1000 ROWS;
+
+OUTPUT TOP_LocationDistributionSUMDateFiltered  TO @TOPLocationDistributionFileFiltered ;
+
+TOP_IP_DistributionSUMDataFiltered  = 
+    SELECT   Date_Time AS  Date_Time, User_Ip AS User_Ip,  NUMBEROFIP AS NUMBEROFIP,
+             User_CountryIso  AS User_CountryIso, 
+           User_State AS User_State,
+           User_City AS User_City,
+           User_Lat AS User_Lat,
+           User_Long AS User_Long
+    FROM IP_DistributionSUMdataFiltered     
+    ORDER BY NUMBEROFIP DESC FETCH 1000 ROWS;
+                                                     
+OUTPUT TOP_IP_DistributionSUMDataFiltered  TO @TOPIPDistributionFileFiltered ;
+
+State_DistributionSUMDateFiltered  = 
+    SELECT   Date_Time AS  Date_Time,
+           User_CountryIso  AS User_CountryIso, 
+           User_State AS User_State,
+           SUM(NUMBEROFIP) AS NUMBEROFIP
+    FROM IP_DistributionSUMdataFiltered      
+    GROUP BY  Date_Time, User_CountryIso,  User_State
+    ORDER BY NUMBEROFIP DESC FETCH 1000 ROWS;
+
+OUTPUT State_DistributionSUMDateFiltered  TO @StateDistributionFileFiltered ;
+
+////IP END
+///////////////
+
+////FROM CODE START
+///////////////
+FCDistributionSUMDataFiltered = 
+    SELECT  Convert.ToDateTime(@CheckDate) AS  Date_Time , FormCode AS FormCode, COUNT(*) AS NUMBEROFFC                                             
+    FROM slapidata
+    WHERE Request_IsNormalTraffic
+    GROUP BY Date_Time,FormCode ORDER BY NUMBEROFFC DESC;
+OUTPUT FCDistributionSUMDataFiltered TO @FCDistributionFileFiltered;
+
+////FROM CODE
+///////////////
+
+
+////UA START
+///////////////
+////'MSIE', 'Firefox', 'Chrome', 'Safari', 'Opera' 
+UADistributiondataFiltered = 
+    SELECT  Convert.ToDateTime(@CheckDate) AS  Date_Time , Request_UserAgent AS Request_UserAgent, COUNT(*) AS NUMBEROFUA                                             
+    FROM slapidata
+    WHERE Request_IsNormalTraffic
+    GROUP BY Date_Time,Request_UserAgent ORDER BY NUMBEROFUA DESC FETCH 1000 ROWS;
+
+OUTPUT UADistributiondataFiltered TO @UADistributionFileFiltered;
+////UA END
+///////////////
+
+
+////RF START
+///////////////
+RFDistributiondataFiltered = 
+    SELECT  Convert.ToDateTime(@CheckDate) AS  Date_Time , Request_Referrer AS Request_Referrer, COUNT(*) AS NUMBEROFRF                                             
+    FROM slapidata
+    WHERE Request_IsNormalTraffic
+    GROUP BY  Date_Time,Request_Referrer ORDER BY NUMBEROFRF DESC FETCH 1000 ROWS;
+
+OUTPUT RFDistributiondataFiltered TO @RFDistributionFileFiltered;
+
+RF_DOMAIN_GROUPBY_DistributiondataFiltered = 
+    SELECT  Convert.ToDateTime(@CheckDate) AS  Date_Time , RemoveURLhttp(Request_Referrer) AS Request_Referrer_Domain, COUNT(*) AS NUMBEROFRF                                             
+    FROM slapidata
+    WHERE Request_IsNormalTraffic
+    GROUP BY  Date_Time,Request_Referrer_Domain ORDER BY NUMBEROFRF DESC FETCH 1000 ROWS;
+
+OUTPUT RF_DOMAIN_GROUPBY_DistributiondataFiltered TO @RFDomainDistributionFileFiltered;
+////RF END
+///////////////
+
+////QUERY START
+///////////////
+QUDistributiondataFiltered = 
+    SELECT  Convert.ToDateTime(@CheckDate) AS  Date_Time , Query_RawQuery AS Query_RawQuery, COUNT(*) AS NUMBEROFQU                                             
+    FROM slapidata
+    WHERE Request_IsNormalTraffic
+    GROUP BY Date_Time, Query_RawQuery ORDER BY NUMBEROFQU DESC FETCH 1000 ROWS;
+
+OUTPUT QUDistributiondataFiltered TO @QUDistributionFileFiltered;
 ////QUERY END
 ///////////////
 

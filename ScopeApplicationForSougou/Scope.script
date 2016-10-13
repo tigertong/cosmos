@@ -3,11 +3,20 @@
 
 //#DECLARE StartDate string = @"2016-08-10"; 
 
-#DECLARE StartDate string = @"2016-08-10"; 
-#DECLARE EndDate string = @"2016-08-10";
-#DECLARE QueryStartTime string = @"2016-08-09 09:00:00";
-#DECLARE QueryEndTime string = @"2016-08-09 09:00:20";
-#DECLARE CheckDate string = @"2016-08-09";
+#DECLARE DaysStart int = 7;
+#DECLARE DaysEnd int = 2;
+#DECLARE today int = 4;
+#DECLARE yesterday int = 5;
+
+#DECLARE runForDate string = @"2016-10-07";  // today +4
+
+
+#DECLARE StartDate string = DateTime.Parse(@runForDate).AddDays(-@DaysStart).ToString("yyyy-MM-dd");//@"2016-08-25"; //CheckData-3
+#DECLARE EndDate string = DateTime.Parse(@runForDate).AddDays(-@DaysEnd).ToString("yyyy-MM-dd");//@"2016-08-30"; //CheckData+2
+#DECLARE QueryStartTime string =  DateTime.Parse(@runForDate).AddDays(-@yesterday).ToString("yyyy-MM-dd")+@" 09:00:00";//@"2016-08-27 09:00:00"; //CheckData-1
+#DECLARE QueryEndTime string = DateTime.Parse(@runForDate).AddDays(-@today).ToString("yyyy-MM-dd")+@" 09:00:00";//@"2016-08-28 09:00:00";//CheckData
+#DECLARE CheckDate string = DateTime.Parse(@runForDate).AddDays(-@today).ToString("yyyy-MM-dd");//@"2016-08-28";
+
 
 //#DECLARE InputFile string @"/users/qianwa/Sogou/SogouAdsInvest/SogouAdsInvest_2016-07-14-2016-07-15.ss";
 //#DECLARE OutputFile string.Format(@"/users/mancao/Test/TotalAds/TotalAds_{0}-{1}.ss",@StartDate, @EndDate);
