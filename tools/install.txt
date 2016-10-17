@@ -107,6 +107,9 @@ Clicks  INT(10)  default 0,
 DSQ  INT(10)  default 0
 )ENGINE=MyISAM DEFAULT CHARSET=utf8; 
 ALTER TABLE `SumFileinfo` ADD UNIQUE (`date`);
+alter table SumFileinfo add BSRPVFile INT(10)  default 0;
+alter table SumFileinfo add BSRPVFileFiltered INT(10)  default 0;
+
 
 
 
@@ -151,7 +154,7 @@ ALTER TABLE `Sogou_data` ADD UNIQUE (`date`);
 
 
 
-
+C:\Work_Env\BingAds\tools\php-5.6.25\php.exe C:\Work_Env\BingAds\CODE\website\logdump.php 201610 20161017
 
 cd C:\Work_Env\BingAds\tools\ScopeSDK
 

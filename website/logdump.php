@@ -12,15 +12,8 @@ $datemonth = $argv[1];
 $date = $argv[2];
 }
 
-
-if(isset($_GET['date']) && isset($_GET['datemonth'])){
-	$date = $_GET['date'];
-	$datemonth = $_GET['datemonth'];
-}
-
-
-	$date = $_GET['date'];
-	$datemonth = $_GET['datemonth'];
+//$date = $_GET['date'];
+//$datemonth = $_GET['datemonth'];
 
 
 //$_localpath="C:/BingAds";
@@ -40,10 +33,18 @@ $command_url2 = "$_localpath/tools/ScopeSDK/Scope.exe  copy https://cosmos08.osd
 echo $command_url2;
 exec($command_url2);
 
+$command_url3 = "$_localpath/tools/ScopeSDK/Scope.exe  copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/mmaisda/sogouads/$datemonth_test/BSRPVFile_$date.csv     $_localpath/logs/SumFile_$date.csv  "  ;
+echo $command_url3;
+exec($command_url3);
+
+$command_url4 = "$_localpath/tools/ScopeSDK/Scope.exe  copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/mmaisda/sogouads/$datemonth_test/BSRPVFileFiltered_$date.csv     $_localpath/logs/SumFile_$date.csv  "  ;
+echo $command_url4;
+exec($command_url4);
 
 
 $dir = $_logfolder;
 require_once("C:/Work_Env/BingAds/GIT/website/db.conf.php");
+
 
 // Open a known directory, and proceed to read its contents
 if(file_exists("$_localpath/logs/DSQ_$date.csv"))
@@ -57,6 +58,14 @@ if(file_exists("$_localpath/logs/SumFile_$date.csv"))
 if(file_exists("$_localpath/logs/SRPVFileFiltered_$date.csv"))
 {    
 	file_handle("$_localpath/logs/SRPVFileFiltered_$date.csv",$db);
+}
+if(file_exists("$_localpath/logs/BSRPVFile_$date.csv"))
+{    
+   file_handle("$_localpath/logs/BSRPVFile_$date.csv",$db);
+}
+if(file_exists("$_localpath/logs/BSRPVFileFiltered_$date.csv"))
+{    
+	file_handle("$_localpath/logs/BSRPVFileFiltered_$date.csv",$db);
 }
 
 function file_handle($filename,$db){
@@ -87,7 +96,15 @@ function file_handle($filename,$db){
 		else if (startWith($filecheck,"DSQ")){
 		//DSQ_2016-08-25.ss
 		$import="INSERT SumFileinfo (date   ,  DSQ  ) values ('$newformat', '$data[0]' ) ON DUPLICATE KEY UPDATE DSQ ='$data[0]'  ";
+		}else if (startWith($filecheck,"BSRPVFile_")){
+		//DSQ_2016-08-25.ss
+		$import="INSERT SumFileinfo (date   ,  BSRPVFile  ) values ('$newformat', '$data[0]' ) ON DUPLICATE KEY UPDATE BSRPVFile ='$data[0]'  ";
+		}else if (startWith($filecheck,"BSRPVFileFiltered_")){
+		//DSQ_2016-08-25.ss
+		$import="INSERT SumFileinfo (date   ,  BSRPVFileFiltered  ) values ('$newformat', '$data[0]' ) ON DUPLICATE KEY UPDATE BSRPVFileFiltered ='$data[0]'  ";
 		}
+			
+			
 				
 		echo $import;
 		mysqli_query($db,$import) or die(mysql_error());
