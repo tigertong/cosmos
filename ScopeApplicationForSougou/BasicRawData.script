@@ -16,6 +16,10 @@
 #DECLARE SRPVFilteredFile string = string.Format (@"/users/mmaisda/sogouads/"+DateTime.Today.AddDays(-@today).ToString("yyyyMM")+@"_test/SRPVFileFiltered_{0}.csv", @CheckDate);
 #DECLARE DSQFile string = string.Format(@"/users/mmaisda/sogouads/DSQ_test/DSQ_{0}.csv", @CheckDate);
 
+#DECLARE BSRPVFile string = string.Format (@"/users/mmaisda/sogouads/"+DateTime.Today.AddDays(-@today).ToString("yyyyMM")+@"_test/BSRPVFile_{0}.csv", @CheckDate);
+#DECLARE BSRPVFilteredFile string = string.Format (@"/users/mmaisda/sogouads/"+DateTime.Today.AddDays(-@today).ToString("yyyyMM")+@"_test/BSRPVFileFiltered_{0}.csv", @CheckDate);
+
+
 SlapiPageViewDaily =
     VIEW @"/shares/searchDM/distrib/released/SLAPI/SearchLogPageView.view"
     PARAMS
@@ -76,6 +80,20 @@ SELECT SUM(Metrics_DistinctQueryCountVerticalWithinVisit) AS DSQ
 
 OUTPUT DSQData TO  @DSQFile;
 
+BSRPVdata = 
+    SELECT COUNT() AS BSRPV
+    FROM slapidata
+    WHERE SogouIM>0
+    ;
+
+OUTPUT BSRPVdata TO @BSRPVFile;
+
+BSRPVFiltereddata = 
+    SELECT COUNT() AS BSRPVF
+    FROM slapidata
+    WHERE Request_IsNormalTraffic AND SogouIM>0
+    ;
+OUTPUT BSRPVFiltereddata TO @BSRPVFilteredFile;
 
 #CS
 public static bool IfSogouAd(Ad a)
