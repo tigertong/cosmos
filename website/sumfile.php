@@ -57,6 +57,15 @@ $Clicks_filtered="";
 $Clicks="";
 $DSQ="";
 
+//Raw Coverage_SML = Raw Bidded-SRPV_SML / Raw SRPV_SML  x 100%
+//Coverage-Filtered _SML = Bidded-SRPV-Filterd_SML / SRPV-Filtered_SML x 100%
+//BSRPVFile_2016-10-06.csv will store the data: Raw Bidded-SRPV_SML
+//BSRPVFileFiltered_2016-10-06.csv will store one data: Bidded-SRPV-Filterd_SML
+
+
+$Coverage_SML=""; 
+$Coverage_Filtered_SML="";
+
 while($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
  {
  /*
@@ -82,6 +91,10 @@ if($Impressions=="")$Impressions=0;
 if($Clicks_filtered=="")$Clicks_filtered=0;
 if($Clicks=="")$Clicks=0;
 if($DSQ=="")$DSQ=0;
+
+$Coverage_SML  .= "".(round(($row['BSRPVFile']/$SRPV)*10000)/100).",";
+$Coverage_Filtered_SML  .= "".(round(($row['BSRPVFileFiltered']/$SRPV_filtered)*10000)/100).",";
+
 }
 
 $SRPV_filtered = substr($SRPV_filtered ,0, strlen($SRPV_filtered)-1);
@@ -93,7 +106,8 @@ $Clicks = substr($Clicks ,0, strlen($Clicks)-1);
 $DSQ = substr($DSQ ,0, strlen($DSQ)-1);
 $categories = substr($categories ,0, strlen($categories)-1);
 	//mysqli_close($db);
-
+$Coverage_Filtered_SML = substr($Coverage_Filtered_SML ,0, strlen($Coverage_Filtered_SML)-1); 
+$Coverage_SML = substr($Coverage_SML ,0, strlen($Coverage_SML)-1); 
 
 $result1 = mysqli_query($db,"SELECT *  FROM Sogou_data where date>='$startdate'  and  date<='$stopdate' order by date asc");
 
@@ -122,7 +136,8 @@ $Impressions_Anti_fraud  .= "".$row['Impressions_Anti_fraud'].",";
 $Clicks_Raw  .= "".$row['Clicks_Raw'].",";
 $Clicks_Anti_fraud  .= "".$row['Clicks_Anti_fraud'].",";
 
-
+$Coverage_Raw  .= "".$row['Coverage_Raw'].",";
+$Coverage_Anti_fraud  .= "".$row['Coverage_Anti_fraud'].",";
 
 if($SRPV_Raw == NULL )$SRPV_Raw=0;
 if($SRPV_Anti_fraud == NULL)$SRPV_Anti_fraud=0;
@@ -139,7 +154,8 @@ $Impressions_Raw = substr($Impressions_Raw ,0, strlen($Impressions_Raw)-1);
 $Impressions_Anti_fraud = substr($Impressions_Anti_fraud ,0, strlen($Impressions_Anti_fraud)-1);
 $Clicks_Raw = substr($Clicks_Raw ,0, strlen($Clicks_Raw)-1);
 $Clicks_Anti_fraud = substr($Clicks_Anti_fraud ,0, strlen($Clicks_Anti_fraud)-1);
- 
+$Coverage_Raw = substr($Coverage_Raw ,0, strlen($Coverage_Raw)-1);
+$Coverage_Anti_fraud = substr($Coverage_Anti_fraud ,0, strlen($Coverage_Anti_fraud)-1); 
 	//mysqli_close($db);
 
 if(strlen($categories) < strlen($categories_1)) $categories = $categories_1;
@@ -396,7 +412,86 @@ $(function () {
 		]
     });
 });
-
+$(function () {
+    $('#containerCF1').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: ' SML Coverage '
+        },
+        subtitle: {
+            text: ' SML Coverage '
+        },
+        xAxis: {
+            categories: [<?php echo $categories;?>]//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: ' <b>percentage %</b>'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [
+		{
+            name: 'Coverage_SML',
+            data: [<?php echo $Coverage_SML;?>]  
+       },
+	    {
+            name: 'Coverage-Filtered_SML',
+            data: [<?php echo $Coverage_Filtered_SML;?>]  
+        }
+		
+		]
+    });
+});
+$(function () {
+    $('#containerCF2').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: ' Sogou Coverage '
+        },
+        subtitle: {
+            text: ' Sogou Coverage '
+        },
+        xAxis: {
+            categories: [<?php echo $categories;?>]//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: 'request'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [
+		{
+            name: ' Coverage_Sogou',
+            data: [<?php echo $Coverage_Raw;?>]  
+       },
+	    {
+            name: 'Coverage-Filtered_Sogou',
+            data: [<?php echo $Coverage_Anti_fraud;?>]  
+        }
+		
+		]
+    });
+});
 		</script>
 <script src="js/highcharts.js"></script>
 <script src="js/exporting.js"></script>
@@ -443,6 +538,8 @@ $(function () {
 	<div id="containerIPF" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
       <div id="containerC" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 	<div id="containerCF" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	<div id="containerCF1" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	<div id="containerCF2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   </div>
 
 </div>

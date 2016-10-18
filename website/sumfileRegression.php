@@ -82,6 +82,9 @@ $Clicks_filtered="";
 $Clicks="";
 $DSQ="";
 
+$BSRPVFile="";
+$BSRPVFileFiltered="";
+
 while($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
  {
  
@@ -109,7 +112,10 @@ if($Clicks_filtered=="")$Clicks_filtered=0;
 if($Clicks=="")$Clicks=0;
 if($DSQ=="")$DSQ=0;
 
-
+$BSRPVFile  .= "".$row['BSRPVFile'].",";
+$BSRPVFileFiltered  .= "".$row['BSRPVFileFiltered'].",";
+if($BSRPVFileFiltered=="")$BSRPVFileFiltered=0;
+if($BSRPVFile=="")$BSRPVFile=0;
 
 
 $SRPV_Linear .= "[".$number.",".$row['SRPV']."],";
@@ -119,6 +125,11 @@ $Impressions_Linear .= "[".$number.",".$row['Impressions']."],";
 $Impressions_filtered_Linear .= "[".$number.",".$row['Impressions_filtered']."],";
 $Clicks_Linear .= "[".$number.",".$row['Clicks']."],";
 $Clicks_filtered_Linear .= "[".$number.",".$row['Clicks_filtered']."],";
+
+
+$BSRPVFile_Linear .= "[".$number.",".$row['BSRPVFile']."],";
+$BSRPVFileFiltered_Linear .= "[".$number.",".$row['BSRPVFileFiltered']."],";
+
 $number++;
 }
 
@@ -137,6 +148,11 @@ $Impressions_Linear = substr($Impressions_Linear ,0, strlen($Impressions_Linear)
 $Impressions_filtered_Linear = substr($Impressions_filtered_Linear ,0, strlen($Impressions_filtered_Linear)-1); 
 $Clicks_Linear = substr($Clicks_Linear ,0, strlen($Clicks_Linear)-1); 
 $Clicks_filtered_Linear = substr($Clicks_filtered_Linear ,0, strlen($Clicks_filtered_Linear)-1); 
+
+$BSRPVFileFiltered = substr($BSRPVFileFiltered ,0, strlen($BSRPVFileFiltered)-1); 
+$BSRPVFile = substr($BSRPVFile ,0, strlen($BSRPVFile)-1); 
+$BSRPVFileFiltered_Linear = substr($BSRPVFileFiltered_Linear ,0, strlen($BSRPVFileFiltered_Linear)-1); 
+$BSRPVFile_Linear = substr($BSRPVFile_Linear ,0, strlen($BSRPVFile_Linear)-1); 
 	//mysqli_close($db);
 
 $number=1;
@@ -1017,6 +1033,114 @@ $(function () {
     });
 });
 
+
+
+///////////////Bidded-SRPV/////////////
+$(function () {
+	var BSRPVFile_data = [<?php echo $BSRPVFile_Linear ;?>];
+	var BSRPVFile_myRegression = regression('linear', BSRPVFile_data);
+ 	var BSRPVFile_linearArr= new Array();	
+			
+	for(var i=0;i < BSRPVFile_myRegression.points.length ;i++){
+		 BSRPVFile_linearArr[i] = Math.round(BSRPVFile_myRegression.points[i][1]);
+	}
+	
+	var BSRPVFileFiltered_data = [<?php echo $BSRPVFileFiltered_Linear ;?>];
+	var BSRPVFileFiltered_myRegression = regression('linear', BSRPVFileFiltered_data);
+ 	var BSRPVFileFiltered_linearArr= new Array();	
+			
+	for(var i=0;i < BSRPVFileFiltered_myRegression.points.length ;i++){
+		 BSRPVFileFiltered_linearArr[i] = Math.round(BSRPVFileFiltered_myRegression.points[i][1]);
+	}
+	
+	alert(BSRPVFileFiltered_linearArr);
+    $('#containerCF3').highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: ' Bidded-SRPV '
+        },
+        subtitle: {
+            text: ' Bidded-SRPV '
+        },
+        xAxis: {
+            categories: [<?php echo $categories;?>]//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        yAxis: {
+            title: {
+                text: 'request'
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: [
+		{
+            name: 'Raw Bidded-SRPV_SML',
+            data:  [<?php echo $BSRPVFile;?>] ,
+			color:'#058DC7' ,
+			lineWidth: 3  ,
+			enableMouseTracking: true,
+			dataLabels: {
+                enabled: true,
+				style: {"color": "#058DC7" }
+			}
+       },
+	    {
+            name: 'Bidded-SRPV-Filterd_SML',
+            data:   [<?php echo $BSRPVFileFiltered;?>] ,
+			color:'#50B432' ,
+			lineWidth: 3  ,
+			enableMouseTracking: true,
+			dataLabels: {
+                enabled: true,
+				style: {"color": "#50B432" }
+			}//[7.0, 6.9, 9.5, 14.5, 18.4, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+        } ,{
+            name: 'Raw Bidded-SRPV_SML Linear',
+            data: BSRPVFile_linearArr,
+			color:'#000000',
+			lineWidth: 1   ,
+			dashStyle: 'LongDashDot',
+			marker: {
+					fillColor: '#000000',//点填充色
+                    lineColor: '#000000',//点边框色
+                    enabled: true,
+                    symbol: 'circle',//曲线点类型："circle", "square", "diamond", "triangle","triangle-down"，默认是"circle"
+                    radius: 2 //曲线点半径，默认是4
+                    
+                },
+			dataLabels: {
+                    enabled: false
+                }
+        },{
+            name: 'Bidded-SRPV-Filterd_SML Linear',
+            data: BSRPVFileFiltered_linearArr,
+			color:'#000000',
+			lineWidth: 1   ,
+			dashStyle: 'LongDashDot',
+			marker: {
+					fillColor: '#000000',//点填充色
+                    lineColor: '#000000',//点边框色
+                    enabled: true,
+                    symbol: 'circle',//曲线点类型："circle", "square", "diamond", "triangle","triangle-down"，默认是"circle"
+                    radius: 2 //曲线点半径，默认是4
+                    
+                },
+			dataLabels: {
+                    enabled: false
+                }
+        }
+		
+		]
+    });
+});
 		</script>
 <script src="js/highcharts.js"></script>
 <script src="js/exporting.js"></script>
@@ -1061,7 +1185,8 @@ $(function () {
       <div id="containerC" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
 	<div id="containerCF" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
 	<div id="containerCF1" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
-	<div id="containerCF2" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	<div id="containerCF2" style="min-width: 310px; height: 400px; margin: 0 auto"></div><br><br>
+	<div id="containerCF3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
   </div>
 
 </div>
