@@ -145,7 +145,7 @@ $limitation2=-20;
 		  <td width="41"  <?php if ($db_Revenue_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ($db_Revenue_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Revenue_7                  ;?>%</td>
 		  <td width="41"  <?php if ($db_Revenue_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Revenue_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Revenue_14                 ;?>%</td>
 		  <td width="41"  <?php if ($db_SRPV_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_SRPV_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_SRPV_7                     ;?>%</td>
-		  <td width="41  <?php if ($db_SRPV_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ($db_SRPV_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> "><?php echo $db_SRPV_14                    ;?>%</td>
+		  <td width="41"  <?php if ($db_SRPV_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ($db_SRPV_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_SRPV_14                    ;?>%</td>
 		  <td width="41"  <?php if ($db_Impressions_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Impressions_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Impressions_7              ;?>%</td>
 		  <td width="41"  <?php if ($db_Impressions_14 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Impressions_14 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Impressions_14             ;?>%</td>
 		  <td width="41"  <?php if ($db_Clicks_7 >=$limitation1 ) { echo "bgcolor=\"#33CC00\"";} if ( $db_Clicks_7 <=$limitation2 ) { echo "bgcolor=\"#FF9966\"";} ?> ><?php echo $db_Clicks_7                   ;?>%</td>
