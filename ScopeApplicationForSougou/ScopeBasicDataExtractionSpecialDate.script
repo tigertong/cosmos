@@ -1,5 +1,13 @@
-﻿//Script GUID:19e0190d-b522-4b7f-b037-1d3f199a31bb
+﻿//Script GUID:90b9d032-de97-4e76-8700-bbbf75130d1b
 //Used for tracking history
+
+
+/*#DECLARE StartDate string = @"2016-08-25"; 
+//#DECLARE StartDate string = ( @@StartDateStr == "" ? @"2016-08-21" : @@StartDateStr); 
+#DECLARE EndDate string = @"2016-08-30";
+#DECLARE QueryStartTime string = @"2016-08-27 09:00:00"; //(2016-08-21 00:00:00 -15hours)
+#DECLARE QueryEndTime string = @"2016-08-28 09:00:00";
+#DECLARE CheckDate string = @"2016-08-28";*/
 
 #DECLARE DaysStart int = 7;
 #DECLARE DaysEnd int = 2;
@@ -16,16 +24,7 @@
 #DECLARE CheckDate string = DateTime.Parse(@runForDate).AddDays(-@today).ToString("yyyy-MM-dd");//@"2016-08-28";
 
 
-
-//#DECLARE OutputFile string = string.Format(@"/users/mmaisda/sogouads/201608_test/TotalLogSogou0820_{0}-{1}.ss", @StartDate, @EndDate);
-#DECLARE SumFile string = string.Format (@"/users/mmaisda/sogouads/"+DateTime.Today.AddDays(-@today).ToString("yyyyMM")+@"_test/SumFile_{0}.csv", @CheckDate);
-#DECLARE SRPVFilteredFile string = string.Format (@"/users/mmaisda/sogouads/"+DateTime.Today.AddDays(-@today).ToString("yyyyMM")+@"_test/SRPVFileFiltered_{0}.csv", @CheckDate);
-#DECLARE DSQFile string = string.Format(@"/users/mmaisda/sogouads/DSQ_test/DSQ_{0}.csv", @CheckDate);
-
-#DECLARE BSRPVFile string = string.Format (@"/users/mmaisda/sogouads/"+DateTime.Today.AddDays(-@today).ToString("yyyyMM")+@"_test/BSRPVFile_{0}.csv", @CheckDate);
-#DECLARE BSRPVFilteredFile string = string.Format (@"/users/mmaisda/sogouads/"+DateTime.Today.AddDays(-@today).ToString("yyyyMM")+@"_test/BSRPVFileFiltered_{0}.csv", @CheckDate);
-
-
+#DECLARE OutputFile string = string.Format(@"/users/tigertong/sogouads/2016basic/TotalLogSogou0820_{0}-{1}-{2}.ss", @StartDate, @EndDate,@CheckDate);
 
 SlapiPageViewDaily =
     VIEW @"/shares/searchDM/distrib/released/SLAPI/SearchLogPageView.view"
@@ -40,20 +39,29 @@ SlapiPageViewDaily =
 
 slapidata=
     SELECT //ClientId.ToLower() AS ClientId,
-           //Request_ImpressionGuid AS ImpressionGuid,
+           Request_ImpressionGuid AS ImpressionGuid,
            Request_RequestTime AS RequestTime,
            //Vertical,
            Request_IsNormalTraffic,
-           Metrics_DistinctQueryCountVerticalWithinVisit,/*DSQ field*/
            //Query_IsNormal,
-           //FormCode,
-           //Page_Entities_Ads != null ? (Page_Entities_Ads.Clicks.Count) : 0 AS AdsClicksCount,
-           //Page_Entities_Ads != null ? (Page_Entities_Ads.Count) : 0 AS AdsShow, 
+           FormCode,
+           Page_Entities_Ads != null ? (Page_Entities_Ads.Clicks.Count) : 0 AS AdsClicksCount,
+           Page_Entities_Ads != null ? (Page_Entities_Ads.Count) : 0 AS AdsShow, 
            //Metrics_AdItemCount AS AdImpression,
            //Metrics_AdClickCount AS MeAdsClicksCount,
            //Page_Entities_Ads.Select( a => IfSogouAd(a) ? 1 : 0).Sum() >0 ? 1 : 0 AS IsSogou,
            Page_Entities_Ads.Select( a => IfSogouAd(a) ? 1 : 0).Sum() AS SogouIM,
-           Page_Entities_Ads.Select( a => IfSogouAd(a) ? a.Clicks.Count : 0).Sum() AS SogouClicks
+           Page_Entities_Ads.Select( a => IfSogouAd(a) ? a.Clicks.Count : 0).Sum() AS SogouClicks,
+           
+           Query_RawQuery,Request_UserAgent,Request_Url,Request_Referrer,
+                      User_Ip,
+           User_ReverseIpInfo.CountryIso  AS User_CountryIso, 
+           User_ReverseIpInfo.State AS User_State,
+           User_ReverseIpInfo.City AS User_City,
+           User_ReverseIpInfo.Region AS User_Region,
+           User_ReverseIpInfo.PostalCode AS User_PostalCode,
+           User_ReverseIpInfo.Lat AS User_Lat,
+           User_ReverseIpInfo.Long AS User_Long
        
     FROM SlapiPageViewDaily
     WHERE Market.ToLower() == "zh-cn" 
@@ -61,48 +69,16 @@ slapidata=
           AND Query_IsNormal 
           AND Vertical.ToLower() == "web";    
 
-//OUTPUT slapidata TO SSTREAM @OutputFile;
+OUTPUT slapidata TO SSTREAM @OutputFile;
 
-Sumdata = 
-    SELECT COUNT() AS SRPV, SUM(SogouIM) AS SogouIM, SUM(SogouClicks) AS SogouClicks
-    FROM slapidata
-    ;
 
-OUTPUT Sumdata TO @SumFile;
 
-SRPVFiltereddata = 
-    SELECT COUNT() AS SRPVF, SUM(SogouIM) AS SogouIMF, SUM(SogouClicks) AS SogouClicksF
-    FROM slapidata
-    //;
-    WHERE Request_IsNormalTraffic
-    ;
 
-OUTPUT SRPVFiltereddata TO @SRPVFilteredFile;
 
-DSQData = 
-SELECT SUM(Metrics_DistinctQueryCountVerticalWithinVisit) AS DSQ
-    FROM slapidata
-    WHERE Request_IsNormalTraffic
-    ;
-
-OUTPUT DSQData TO  @DSQFile;
-
-BSRPVdata = 
-    SELECT COUNT() AS BSRPV
-    FROM slapidata
-    WHERE SogouIM>0
-    ;
-
-OUTPUT BSRPVdata TO @BSRPVFile;
-
-BSRPVFiltereddata = 
-    SELECT COUNT() AS BSRPVF
-    FROM slapidata
-    WHERE Request_IsNormalTraffic AND SogouIM>0
-    ;
-OUTPUT BSRPVFiltereddata TO @BSRPVFilteredFile;
-
+//C# CODE
+/////////////
 #CS
+       
 public static bool IfSogouAd(Ad a)
 {
    var urls = new List<string>();

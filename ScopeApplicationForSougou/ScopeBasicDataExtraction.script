@@ -2,12 +2,23 @@
 //Used for tracking history
 
 
-#DECLARE StartDate string = @"2016-08-25";
+/*#DECLARE StartDate string = @"2016-08-25"; 
 //#DECLARE StartDate string = ( @@StartDateStr == "" ? @"2016-08-21" : @@StartDateStr); 
 #DECLARE EndDate string = @"2016-08-30";
 #DECLARE QueryStartTime string = @"2016-08-27 09:00:00"; //(2016-08-21 00:00:00 -15hours)
 #DECLARE QueryEndTime string = @"2016-08-28 09:00:00";
-#DECLARE CheckDate string = @"2016-08-28";
+#DECLARE CheckDate string = @"2016-08-28";*/
+
+#DECLARE DaysStart int = 7;
+#DECLARE DaysEnd int = 2;
+#DECLARE today int = 4;
+#DECLARE yesterday int = 5;
+
+#DECLARE StartDate string = DateTime.Today.AddDays(-@DaysStart).ToString("yyyy-MM-dd");//@"2016-08-25"; //CheckData-3
+#DECLARE EndDate string = DateTime.Today.AddDays(-@DaysEnd).ToString("yyyy-MM-dd");//@"2016-08-30"; //CheckData+2
+#DECLARE QueryStartTime string =  DateTime.Today.AddDays(-@yesterday).ToString("yyyy-MM-dd")+@" 09:00:00";//@"2016-08-27 09:00:00"; //CheckData-1
+#DECLARE QueryEndTime string = DateTime.Today.AddDays(-@today).ToString("yyyy-MM-dd")+@" 09:00:00";//@"2016-08-28 09:00:00";//CheckData
+#DECLARE CheckDate string = DateTime.Today.AddDays(-@today).ToString("yyyy-MM-dd");//@"2016-08-28";
 
 #DECLARE OutputFile string = string.Format(@"/users/tigertong/sogouads/2016basic/TotalLogSogou0820_{0}-{1}-{2}.ss", @StartDate, @EndDate,@CheckDate);
 

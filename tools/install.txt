@@ -156,16 +156,27 @@ ALTER TABLE `Sogou_data` ADD UNIQUE (`date`);
 
 C:\Work_Env\BingAds\tools\php-5.6.25\php.exe C:\Work_Env\BingAds\CODE\website\logdump.php 201610 20161017
 
-cd C:\Work_Env\BingAds\tools\ScopeSDK
+C:\work_env\BingAds\tools\ScopeSDK
 
-.\Scope.exe export  -top 1000  https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/tigertong/sogouads/2016/IPSumFile_2016-08-20.ss C:\Work_Env\BingAds\logs\IPSumFile_2016-08-20.ss
+.\Scope.exe joblist -vc https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/
 
 
+//basic data extraction
+.\Scope.exe submit -i C:\work_env\BingAds\CODE\ScopeApplicationForSougou\ScopeApplicationForSougou\ScopeBasicDataExtraction.script -vc https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/ -p 1002
+
+//data export
+.\Scope.exe export   -top 1000  https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/tigertong/sogouads/2016/TotalLogSogou0820_2016-08-19-2016-08-22.ss   C:\work_env\BingAds\logs\TotalLogSogou0820_2016-08-19-2016-08-22.ss  
+.\Scope.exe copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/tigertong/sogouads/2016/IPDistribution_2016-08-17.csv C:\work_env\BingAds\logs\IPDistribution_2016-08-17.csv 
  
-IPDistribution_2016-08-22.csv   
-QUDistribution_2016-08-22.csv  
-RFDistribution_2016-08-22.csv  
-TotalLogSogou0820_2016-08-21-2016-08-24.ss  
+//data copy
+https://microsoft.sharepoint.com/teams/Cosmos/Wiki/Home.aspx
+.\Scope.exe copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/tigertong/sogouads/2016/UADistribution_2016-08-26.csv C:\work_env\BingAds\logs\UADistribution_2016-08-26.csv -length 1024000
+.\Scope.exe copy https://cosmos08.osdinfra.net/cosmos/bingads.marketplace.VC1/users/tigertong/sogouads/2016result/TOP_IP_GROUPBY_Distribution_2016-08-08.csv              C:\work_env\BingAds\logs\TOP_IP_GROUPBY_Distribution_2016-08-08.csv        
+
+
+
+
+
 
 
 
