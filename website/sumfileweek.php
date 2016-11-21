@@ -358,7 +358,7 @@ $(function () {
 	            
 	<table width="600" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="150"><a href="sumfile.php">normal tread</a></td>
+        <td width="150"><a href="sumfile.php">normal trend</a></td>
         <td width="150"><a href="sumfileRegression.php">Linear Regression</a></td>
         <td width="150"><a href="sumfileweek.php">by Week</a></td>
         <td width="150"><a href="sumfilemonth.php"> by Month</a></td><td width="150"><a href="sumfilemixed.php"> mixed trend</a></td>

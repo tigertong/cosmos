@@ -52,7 +52,7 @@ $submitdate = $_GET["date"];
 	<form   action='IP.php' method='get'>
 	date:<input type="text" id="date" name="date" size="20" value="<?php echo $submitdate; ?>"> <input name="submit" value="submit" id="submit"  type="submit" />
 	</form>
-	</p><p><iframe frameborder=0 width=1200 height=700 marginheight=0 marginwidth=0 scrolling=yes src="./IPnew.php?date=<?php echo $submitdate; ?>"></iframe></p>
+	</p><p><!--iframe frameborder=0 width=1200 height=700 marginheight=0 marginwidth=0 scrolling=yes src="./IPnew.php?date=<?php echo $submitdate; ?>"></iframe--></p>
     
 	
 	
