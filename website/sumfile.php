@@ -92,9 +92,12 @@ if($Clicks_filtered=="")$Clicks_filtered=0;
 if($Clicks=="")$Clicks=0;
 if($DSQ=="")$DSQ=0;
 
-$Coverage_SML  .= "".(round(($row['BSRPVFile']/$SRPV)*10000)/100).",";
-$Coverage_Filtered_SML  .= "".(round(($row['BSRPVFileFiltered']/$SRPV_filtered)*10000)/100).",";
+//$Coverage_SML  .= "".(round(($row['BSRPVFile']/$SRPV)*10000)/100).",";
+//$Coverage_Filtered_SML  .= "".(round(($row['BSRPVFileFiltered']/$SRPV_filtered)*10000)/100).",";
 
+$Coverage_SML  .= "".(round(($row['BSRPVFile']/$row['SRPV'])*10000)/100).",";//"".(round(($row['BSRPVFile']/$SRPV)*10000)/100).",";
+//echo round(($row['BSRPVFileFiltered']/$row['SRPV_filtered'])*10000)/100 ."--".$row['BSRPVFileFiltered']."--".$row['SRPV_filtered']."\n";
+$Coverage_Filtered_SML  .= "".(round(($row['BSRPVFileFiltered']/$row['SRPV_filtered'])*10000)/100).",";
 }
 
 $SRPV_filtered = substr($SRPV_filtered ,0, strlen($SRPV_filtered)-1);
